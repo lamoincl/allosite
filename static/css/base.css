@@ -1,10 +1,10 @@
 html, body {height: 100%}
 body {font-family: "Lato", sans-serif}
-footer {position: absolute; width: 100%; bottom: 0;}
 .mySlides {display: none}
 .greenyellow {color: #000 !important; background-color: #ADFF2F;}
 .btn:hover {background-color: #2C8F30 !important;}
 .w3-button:hover {color: #fff !important; background-color: #2C8F30 !important;}
 a:hover {text-decoration: none !important;}
-.allo-form {padding: 2rem; font-size: 1.5rem; text-align: left !important;}
+.allo-form {padding: 2em; font-size: 1.5em; text-align: left !important; margin-top: 20vh !important;}
 .allo-input {background-color: #ADFF2F !important; border: #ADFF2F !important;}
+.btn-commander {margin-top: 5vh !important;}
