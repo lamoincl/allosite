@@ -16,10 +16,8 @@ def gen_sub_id():
 
 def is_logged():
     it_is = True
-    lg_id = session['lg']
-    lg = db.session.query(Idlogin).get(lg_id)
-    if lg is None:
+    lg_id = session.get('lg', None)
+    if lg_id is not None:
         it_is = False
     return it_is
-
     
