@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block body %}
+            {% if wrong == 1 %}
+            <p style="color: red">Le mot de passe saisi n'est pas bon.</p>
+            {% endif %}
+            <form method="post">
+                <div class="form-group">
+                    <label for="mdp">Mot de Passe:</label>
+                    <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Mot de passe">
+                </div>
+                <button type="submit" class="btn btn-primary">Se Connecter</button>
+            </form>
+{% endblock %}

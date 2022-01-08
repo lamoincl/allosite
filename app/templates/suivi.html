@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block body %}
+            <h2 class="w3-wide">SUIVI DE COMMANDE</h2>
+            <h4 class="w3-wide">Ta commande est {{ cmd.status.value }} !</h4>
+            <h6 class="w3-wide">Recapitulatif commande {{ cmd.allo.allo_nom }} :</h6>
+            <p>
+                Livraison {{ cmd.lieu.value }}<br>
+{#                {% if cmf.lieu == "à la meuh" %}#}
+                Appartement {{ cmd.appart }}
+{#                {% else %}#}
+{#                A l'adresse {{ cmd.adress }}#}
+{#                {% endif %}#}
+                <br>
+                Nom Prénom sur Facebook : {{ cmd.id_fb }}
+            </p>
+{% endblock %}
