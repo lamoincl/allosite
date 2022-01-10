@@ -61,8 +61,12 @@ def manage(allo_id):
 @app.route('/suivi/<cmd_id>')
 def suivi(cmd_id):
     cmd = db.session.query(Commande).get(cmd_id)
-    # todo https://www.py4u.net/discuss/998590 add an auto refresh
-    return render_template('suivi.html', cmd=cmd)
+    if request.args.get("refresh") is not None:
+        html_response = render_template('refresh/suivi.html', cmd=cmd)
+    else:
+        html_response = render_template('suivi.html', cmd=cmd)
+
+    return html_response
 
 
 @app.route('/allos')

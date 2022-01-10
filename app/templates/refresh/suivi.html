@@ -1,7 +1,3 @@
-{% extends 'base.html' %}
-
-{% block body %}
-            <div id="updContent">
             <h2 class="w3-wide">SUIVI DE COMMANDE</h2>
             <h4 class="w3-wide">Ta commande est {{ cmd.status.value }} !</h4>
             <h6 class="w3-wide">Recapitulatif commande {{ cmd.allo.allo_nom }} :</h6>
@@ -20,10 +16,3 @@
                 {{ cmd.com }}
                 {% endif %}
             </p>
-            </div>
-{% endblock %}
-
-{% block script %}
-    {{ super() }}
-    <script type="text/javascript" src="{{ url_for('static', filename='js/suivi.js') }}"></script>
-{% endblock %}
