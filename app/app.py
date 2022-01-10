@@ -84,7 +84,7 @@ def allo_cmd(allo_id):
         }
         save_mode = False
 
-        if request.form['gridCheck'] is not None:
+        if 'gridCheck' in request.form:
             save_mode = True
             saved_value = {'id_fb': request.form['id_fb']}
 
@@ -106,11 +106,12 @@ def allo_cmd(allo_id):
         db.session.commit()
 
         html_response = make_response(redirect(url_for('suivi', cmd_id=new_cmd.cmd_id)))
-        html_response.set_cookie('coord_saved', str(saved_value), max_age=None)
-
-    if request.cookies.get("coord_saved") is not None:
-        coord_get = ast.literal_eval(request.cookies.get("coord_saved"))
-        html_response = render_template(template_name, **coord_get)
+        if save_mode:
+            html_response.set_cookie('coord_saved', str(saved_value), max_age=None)
+    else:
+        if request.cookies.get("coord_saved") is not None:
+            coord_get = ast.literal_eval(request.cookies.get("coord_saved"))
+            html_response = render_template(template_name, **coord_get)
 
     return html_response
 

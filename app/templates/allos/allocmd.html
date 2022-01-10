@@ -19,20 +19,20 @@
                 {% if lieu == 'MEUH' %}
                 <div class="col">
                     <label for="appart">N° Appartement :</label>
-                    <input type="text" class="form-control" id="appart" name="appart" value="{{ appart }}" placeholder="Y16" pattern="^[a-zA-Z][0-9][0-9]$" required>
+                    <input type="text" class="form-control" id="appart" name="appart" value="{{ appart }}" placeholder="Y16" pattern="^[a-zA-Z][0-9][0-9]$" {% if lieu == 'MEUH' %}required{% elif lieu == 'EXTE' %}{% else %}required{% endif %}>
                 </div>
                 <div class="col" style="display: none !important;">
                     <label for="adresse">Adresse :</label>
-                    <input type="text" class="form-control" id="adresse" name="adresse" value="{{ adress }}" placeholder="1 Place Gabriel Péri">
+                    <input type="text" class="form-control" id="adresse" name="adresse" value="{{ adress }}" placeholder="1 Place Gabriel Péri" {% if lieu == 'EXTE' %}required{% endif %}>
                 </div>
                 {% else %}
                 <div class="col" style="display: none !important;">
                     <label for="appart">N° Appartement :</label>
-                    <input type="text" class="form-control" id="appart" name="appart" value="{{ appart }}" placeholder="Y16" pattern="^[a-zA-Z][0-9][0-9]$" required>
+                    <input type="text" class="form-control" id="appart" name="appart" value="{{ appart }}" placeholder="Y16" pattern="^[a-zA-Z][0-9][0-9]$" {% if lieu == 'MEUH' %}required{% elif lieu == 'EXTE' %}{% else %}required{% endif %}>
                 </div>
                 <div class="col">
                     <label for="adresse">Adresse :</label>
-                    <input type="text" class="form-control" id="adresse" name="adresse" value="{{ adress }}" placeholder="1 Place Gabriel Péri">
+                    <input type="text" class="form-control" id="adresse" name="adresse" value="{{ adress }}" placeholder="1 Place Gabriel Péri" {% if lieu == 'EXTE' %}required{% endif %}>
                 </div>
                 {% endif %}
             </div>

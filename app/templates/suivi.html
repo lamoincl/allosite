@@ -6,12 +6,17 @@
             <h6 class="w3-wide">Recapitulatif commande {{ cmd.allo.allo_nom }} :</h6>
             <p>
                 Livraison {{ cmd.lieu.value }}<br>
-{#                {% if cmf.lieu == "à la meuh" %}#}
+                {% if cmd.lieu == "MEUH" %}
                 Appartement {{ cmd.appart }}
-{#                {% else %}#}
-{#                A l'adresse {{ cmd.adress }}#}
-{#                {% endif %}#}
+                {% else %}
+                A l'adresse {{ cmd.adress }}
+                {% endif %}
                 <br>
                 Nom Prénom sur Facebook : {{ cmd.id_fb }}
+                <br>
+                {% if cmd.com != '' %}
+                Spécification :<br>
+                {{ cmd.com }}
+                {% endif %}
             </p>
 {% endblock %}
