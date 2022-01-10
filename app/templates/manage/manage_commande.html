@@ -8,6 +8,7 @@
                 <th scope="col">Facebook</th>
                 <th scope="col">Adresse</th>
                 <th scope="col">Status</th>
+                <th scope="col">Heure</th>
             </tr>
         </thead>
         <tbody>
@@ -22,11 +23,22 @@
                 {% endif %}
                 <td>{{ cmd.status.name }}</td>
             </tr>
-            {% if cmd.com == None %}
+            {% if cmd.com != '' %}
             <tr>
-                <th colspan="4">cmd.com</th>
+                <th>spec :</th>
+                <th colspan="4">{{ cmd.com }}</th>
             </tr>
             {% endif %}
+            <tr>
+                <th colspan="5">
+                    {% if not allo.est_gratuit %}
+                    <button>Payé</button>
+                    {% endif %} 
+                    <button>Préparation</button>
+                    <button>Livraison</button>
+                    <button>Livré</button>
+                </th>
+            </tr>
     {% else %}
             <tr>
                 <th colspan="4">Il n'y a pas de commande pour ce allo !</th>

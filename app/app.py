@@ -52,7 +52,8 @@ def index_manage():
 def manage(allo_id):
     if is_logged():
         cmds = db.session.query(Commande).filter(Commande.allo_id == allo_id).all()
-        return render_template('manage/manage_commande.html', cmds=cmds)
+        allo = db.session.query(Allo).get(allo_id)
+        return render_template('manage/manage_commande.html', cmds=cmds, allo=allo)
     else:
         return redirect(url_for('login', next='/manage-commande/' + str(allo_id)))
 
