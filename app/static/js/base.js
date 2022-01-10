@@ -24,9 +24,37 @@ function myFunction() {
   }
 }
 
+function onClickAppart() {
+  onChangeLieu('MEUH');
+}
+
+function onClickAdresse() {
+  onChangeLieu('EXTE');
+}
+
+function onChangeLieu(selectedLieu) {
+  let appartInput = document.getElementById("appart");
+  let appartCol = appartInput.parentElement;
+  let adresseInput = document.getElementById("adresse");
+  let adresseCol = adresseInput.parentElement;
+  let hideString = 'display: none !important;'
+
+  if (selectedLieu === 'EXTE') {
+    appartInput.removeAttribute("required")
+    adresseInput.setAttribute("required", "")
+    appartCol.setAttribute("style", hideString);
+    adresseCol.removeAttribute("style");
+  } else {
+    appartInput.setAttribute("required", "")
+    adresseInput.removeAttribute("required")
+    appartCol.removeAttribute("style");
+    adresseCol.setAttribute("style", hideString);
+  }
+}
+
 // todo change this function to disapear menu in mobile format
 // When the user clicks anywhere outside of the modal, close it
-var modal = document.getElementById('ticketModal');
+var modal = document.getElementById('navDemo');
 window.onclick = function(event) {
   if (event.target === modal) {
     modal.style.display = "none";

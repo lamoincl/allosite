@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block body %}
+        <h2 class="w3-wide">ALLÔ LA TERRE ICI MA LUNE</h2>
+        <form class="allo-form w3-green" action="" method="post">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="lieu_opt" id="inlineRadio1" value="MEUH" onclick="onClickAppart()" {% if lieu == 'MEUH' %}checked{% elif lieu == 'EXTE' %}{% else %}checked{% endif %} required>
+                <label class="form-check-label" for="inlineRadio1">Je suis à la meuh</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="lieu_opt" id="inlineRadio2" value="EXTE" onclick="onClickAdresse()" {% if lieu == 'EXTE' %}checked{% endif %}  required>
+                <label class="form-check-label" for="inlineRadio2">Je suis extérieur à la meuh</label>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="id-fb">Nom facebook :</label>
+                    <input type="text" class="form-control" id="id-fb" name="id_fb" value="{{ id_fb }}" placeholder="Nom Prénom" required>
+                </div>
+                {% if lieu == 'MEUH' %}
+                <div class="col">
+                    <label for="appart">N° Appartement :</label>
+                    <input type="text" class="form-control" id="appart" name="appart" value="{{ appart }}" placeholder="Y16" pattern="^[a-zA-Z][0-9][0-9]$" required>
+                </div>
+                <div class="col" style="display: none !important;">
+                    <label for="adresse">Adresse :</label>
+                    <input type="text" class="form-control" id="adresse" name="adresse" value="{{ adress }}" placeholder="1 Place Gabriel Péri">
+                </div>
+                {% else %}
+                <div class="col" style="display: none !important;">
+                    <label for="appart">N° Appartement :</label>
+                    <input type="text" class="form-control" id="appart" name="appart" value="{{ appart }}" placeholder="Y16" pattern="^[a-zA-Z][0-9][0-9]$" required>
+                </div>
+                <div class="col">
+                    <label for="adresse">Adresse :</label>
+                    <input type="text" class="form-control" id="adresse" name="adresse" value="{{ adress }}" placeholder="1 Place Gabriel Péri">
+                </div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="com">Une une précision à ta commande d'allô ?</label>
+                <textarea class="form-control" id="com" name="com" rows="2"></textarea>
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck" name="gridCheck">
+                    <label class="form-check-label" for="gridCheck">
+                        Mémoriser mes coordonnées
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-right">
+                    <button type="submit" class="btn-commander btn btn-primary">Commander</button>
+                </div>
+            </div>
+        </form>
+{% endblock %}

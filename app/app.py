@@ -1,10 +1,8 @@
+import ast
 import datetime
 
-import pymysql
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import text
-from flask import render_template, request, redirect, url_for, session
-from database import db, app, Commande, Idlogin, Allo
+from flask import render_template, request, redirect, url_for, session, make_response
+from database import db, Commande, Idlogin, Allo, app, StatusEnum
 from utils import gen_sub_id, is_logged
 
 app.secret_key = 'P9Y44~NJmYr9rC4Ep$JE'
@@ -68,25 +66,53 @@ def suivi(cmd_id):
 
 @app.route('/allos')
 def allos():
-    return render_template('allos/allos.html')
+    all_allos = db.session.query(Allo).all()
+    return render_template('allos/allos.html', allos=all_allos)
 
 
-@app.route('/allos/allo-crepe')
-def allo_crepe():
-    return render_template('allos/allocrepe.html')
+@app.route('/allos/<allo_id>', methods=['GET', 'POST'])
+def allo_cmd(allo_id):
+    template_name = 'allos/allocmd.html'
+    html_response = render_template(template_name)
 
-
-@app.route('/allos/allo-la-terre-ici-ma-lune', methods=['GET', 'POST'])
-def allo_la_terre_ici_ma_lune():
     if request.method == 'POST':
-        fb = request.form['id_fb']
-        appart = request.form['appart']
+        form_values = {
+            'id_fb': request.form['id_fb'],
+            'cmd_date': datetime.datetime.now(),
+            'com': request.form['com'],
+            'allo_id': allo_id
+        }
+        save_mode = False
 
-        new_cmd = Commande(id_fb=fb, appart=appart, allo_id=2)
+        if request.form['gridCheck'] is not None:
+            save_mode = True
+            saved_value = {'id_fb': request.form['id_fb']}
+
+        if request.form['lieu_opt'] == 'MEUH':
+            form_values['lieu'] = StatusEnum.MEUH
+            form_values['appart'] = request.form['appart']
+            if save_mode:
+                saved_value['lieu'] = 'MEUH'
+                saved_value['appart'] = request.form['appart']
+        else:
+            form_values['lieu'] = StatusEnum.EXTE
+            form_values['adress'] = request.form['adresse']
+            if save_mode:
+                saved_value['lieu'] = 'EXTE'
+                saved_value['adress'] = request.form['adresse']
+
+        new_cmd = Commande(**form_values)
         db.session.add(new_cmd)
         db.session.commit()
-        return redirect(url_for('suivi', cmd_id=new_cmd.cmd_id))
-    return render_template('allos/allolaterreicimalune.html')
+
+        html_response = make_response(redirect(url_for('suivi', cmd_id=new_cmd.cmd_id)))
+        html_response.set_cookie('coord_saved', str(saved_value), max_age=None)
+
+    if request.cookies.get("coord_saved") is not None:
+        coord_get = ast.literal_eval(request.cookies.get("coord_saved"))
+        html_response = render_template(template_name, **coord_get)
+
+    return html_response
 
 
 @app.route('/presentation')
