@@ -17,7 +17,28 @@ def gen_sub_id():
 def is_logged():
     it_is = True
     lg_id = session.get('lg', None)
-    if lg_id is not None:
+    if lg_id is None:
         it_is = False
+    else:
+        lg = db.session.query(Idlogin).get(lg_id)
+        if lg is None:
+            it_is = False
     return it_is
-    
+
+
+standard = [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+quantitatif = [19, 21]
+
+
+def is_standard(allo_id):
+    test = False
+    if allo_id in standard:
+        test = True
+    return test
+
+
+def is_quantitatif(allo_id):
+    test = False
+    if allo_id in quantitatif:
+        test = True
+    return test
