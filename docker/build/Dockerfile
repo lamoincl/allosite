@@ -1,4 +1,5 @@
 FROM python:3.8-alpine
+RUN apk add -U tzdata && cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
 WORKDIR /usr/src/app/
 COPY entrypoint.sh /usr/src/app/
 WORKDIR /app
