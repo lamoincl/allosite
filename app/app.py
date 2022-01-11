@@ -21,6 +21,31 @@ def refresh_lg_id():
     return "<h1>Cette page n'est accessible normalement :( !</h1>"
 
 
+@app.route('/change-status/<cmd_id>/<status>')
+def change_status(cmd_id, status):
+    if is_logged():
+        commande = db.session.query(Commande).get(cmd_id)
+        if status == 'PAYE':
+            commande.status = StatusEnum.PAYE
+        elif status == 'PREPARATION':
+            commande.status = StatusEnum.PREPARATION
+        elif status == 'LIVRAISON':
+            commande.status = StatusEnum.LIVRAISON
+        elif status == 'LIVRE':
+            commande.status = StatusEnum.LIVRE
+        db.session.commit()
+    return "<h1>Cette page n'est accessible normalement :( !</h1>"
+
+
+@app.route('/refresh-status/<cmd_id>')
+def refresh_status(cmd_id):
+    html_response = "<h1>Cette page n'est accessible normalement :( !</h1>"
+    if is_logged():
+        commande = db.session.query(Commande).get(cmd_id)
+        html_response = render_template('refresh/manage_status.html', status=commande.status.name)
+    return html_response
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     wrong = 0
@@ -48,14 +73,35 @@ def index_manage():
         return redirect(url_for('login', next='/manage-commande'))
 
 
-@app.route('/manage-commande/<allo_id>')
-def manage(allo_id):
+def gen_manage(allo_id, cmds):
     if is_logged():
-        cmds = db.session.query(Commande).filter(Commande.allo_id == allo_id).all()
-        allo = db.session.query(Allo).get(allo_id)
-        return render_template('manage/manage_commande.html', cmds=cmds, allo=allo)
+        if cmds is None:
+            cmds = db.session.query(Commande).filter(Commande.allo_id == allo_id).all()
+
+        if request.args.get("refresh") is not None:
+            html_response = render_template('refresh/manage_commande.html', cmds=cmds, allo_id=allo_id)
+        else:
+            html_response = render_template('manage/manage_commande.html', cmds=cmds, allo_id=allo_id)
+        return html_response
     else:
         return redirect(url_for('login', next='/manage-commande/' + str(allo_id)))
+
+
+@app.route('/manage-commande/<allo_id>')
+def manage(allo_id):
+    return gen_manage(allo_id, None)
+
+
+@app.route('/manage-commande-meuh/<allo_id>')
+def manage_meuh(allo_id):
+    cmds = db.session.query(Commande).filter(Commande.allo_id == allo_id, Commande.lieu == StatusEnum.MEUH).all()
+    return gen_manage(allo_id, cmds)
+
+
+@app.route('/manage-commande-exte/<allo_id>')
+def manage_exte(allo_id):
+    cmds = db.session.query(Commande).filter(Commande.allo_id == allo_id, Commande.lieu == StatusEnum.EXTE).all()
+    return gen_manage(allo_id, cmds)
 
 
 @app.route('/suivi/<cmd_id>')

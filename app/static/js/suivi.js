@@ -1,11 +1,2 @@
-function refreshSuiviData() {
-    $.getJSON(
-        document.URL + '?refresh',
-        {},
-        function (data) {
-            $("#updContent").innerHTML(data.result);
-        }
-    );
-}
-
-setInterval(refreshSuiviData, 500);
+function refreshSuiviData() {$("#updContent").load(document.URL + "?refresh");}
+setInterval(refreshSuiviData, 60000);
