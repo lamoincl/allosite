@@ -5,21 +5,34 @@
             <div class="w3-bar w3-green w3-card">
                 <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
                 <a href="{{ url_for('index_manage') }}" class="w3-bar-item w3-button w3-padding-large">RETOUR</a>
-                <a href="{{ url_for('manage', allo_id=allo_id) }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">TOUTES LES COMMANDES</a>
-                <a href="{{ url_for('manage_meuh', allo_id=allo_id) }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">COMMANDES A LA MEUH</a>
-                <a href="{{ url_for('manage_exte', allo_id=allo_id) }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">COMMANDES EN EXTE</a>
+                <a href="{{ url_for('manage', allo_id=allo.allo_id) }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small {% if section == 'GLOBAL' %}highlight{% endif %}">TOUTES LES COMMANDES</a>
+                <a href="{{ url_for('manage_meuh', allo_id=allo.allo_id) }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small {% if section == 'MEUH' %}highlight{% endif %}">COMMANDES A LA MEUH</a>
+                <a href="{{ url_for('manage_exte', allo_id=allo.allo_id) }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small {% if section == 'EXTE' %}highlight{% endif %}">COMMANDES EN EXTE</a>
+                <a href="{{ url_for('manage_livre', allo_id=allo.allo_id) }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small {% if section == 'LIVRE' %}highlight{% endif %}">COMMANDES LIVRE</a>
             </div>
         </div>
 
         <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
         <div id="navDemo" class="w3-bar-block w3-green w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
-            <a href="{{ url_for('manage', allo_id=allo_id) }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">TOUTES LES COMMANDES</a>
-            <a href="{{ url_for('manage_meuh', allo_id=allo_id) }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">COMMANDES A LA MEUH</a>
-            <a href="{{ url_for('manage_exte', allo_id=allo_id) }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">COMMANDES EN EXTE</a>
+            <a href="{{ url_for('manage', allo_id=allo.allo_id) }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">TOUTES LES COMMANDES</a>
+            <a href="{{ url_for('manage_meuh', allo_id=allo.allo_id) }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">COMMANDES A LA MEUH</a>
+            <a href="{{ url_for('manage_exte', allo_id=allo.allo_id) }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">COMMANDES EN EXTE</a>
+            <a href="{{ url_for('manage_livre', allo_id=allo.allo_id) }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">COMMANDES LIVRE</a>
         </div>
 {% endblock %}
 
 {% block body %}
+    <h1>{{ allo.allo_nom }} -
+    {% if section == 'GLOBAL' %}
+        Toutes les commandes
+    {% elif section == 'MEUH' %}
+        Commandes de la meuh
+    {% elif section == 'EXTE' %}
+        Commandes en exte
+    {% elif section == 'LIVRE' %}
+        Commandes livrés
+    {% endif %}
+    </h1>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -61,7 +74,7 @@
             </tr>
     {% else %}
             <tr>
-                <th colspan="4">Il n'y a pas de commande pour ce allo !</th>
+                <th colspan="5">Il n'y a pas de commande pour ce allo !</th>
             </tr>
     {% endfor %}
         </tbody>

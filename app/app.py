@@ -68,20 +68,22 @@ def accueil():
 def index_manage():
     if is_logged():
         all_allos = db.session.query(Allo).all()
-        return render_template('manage/index_commande.html', allos=all_allos)
+        if request.args.get("refresh") is not None:
+            html_response = render_template('refresh/manage_index.html', allos=all_allos, db=db, Commande=Commande, Allo=Allo, StatusEnum=StatusEnum)
+        else:
+            html_response = render_template('manage/index_commande.html', allos=all_allos, db=db, Commande=Commande, Allo=Allo, StatusEnum=StatusEnum)
+        return html_response
     else:
         return redirect(url_for('login', next='/manage-commande'))
 
 
-def gen_manage(allo_id, cmds):
+def gen_manage(allo_id, cmds, section):
     if is_logged():
-        if cmds is None:
-            cmds = db.session.query(Commande).filter(Commande.allo_id == allo_id).all()
-
+        allo = db.session.query(Allo).get(allo_id)
         if request.args.get("refresh") is not None:
-            html_response = render_template('refresh/manage_commande.html', cmds=cmds, allo_id=allo_id)
+            html_response = render_template('refresh/manage_commande.html', cmds=cmds, allo=allo, section=section)
         else:
-            html_response = render_template('manage/manage_commande.html', cmds=cmds, allo_id=allo_id)
+            html_response = render_template('manage/manage_commande.html', cmds=cmds, allo=allo, section=section)
         return html_response
     else:
         return redirect(url_for('login', next='/manage-commande/' + str(allo_id)))
@@ -89,19 +91,44 @@ def gen_manage(allo_id, cmds):
 
 @app.route('/manage-commande/<allo_id>')
 def manage(allo_id):
-    return gen_manage(allo_id, None)
+    cmds = db.session.query(Commande).filter(
+        Commande.allo_id == allo_id,
+        Commande.status != StatusEnum.LIVRE
+    ).all()
+    section = 'GLOBAL'
+    return gen_manage(allo_id, cmds, section)
 
 
 @app.route('/manage-commande-meuh/<allo_id>')
 def manage_meuh(allo_id):
-    cmds = db.session.query(Commande).filter(Commande.allo_id == allo_id, Commande.lieu == StatusEnum.MEUH).all()
-    return gen_manage(allo_id, cmds)
+    cmds = db.session.query(Commande).filter(
+        Commande.allo_id == allo_id,
+        Commande.lieu == StatusEnum.MEUH,
+        Commande.status != StatusEnum.LIVRE
+    ).all()
+    section = 'MEUH'
+    return gen_manage(allo_id, cmds, section)
 
 
 @app.route('/manage-commande-exte/<allo_id>')
 def manage_exte(allo_id):
-    cmds = db.session.query(Commande).filter(Commande.allo_id == allo_id, Commande.lieu == StatusEnum.EXTE).all()
-    return gen_manage(allo_id, cmds)
+    cmds = db.session.query(Commande).filter(
+        Commande.allo_id == allo_id,
+        Commande.lieu == StatusEnum.EXTE,
+        Commande.status != StatusEnum.LIVRE
+    ).all()
+    section = 'EXTE'
+    return gen_manage(allo_id, cmds, section)
+
+
+@app.route('/manage-commande-livre/<allo_id>')
+def manage_livre(allo_id):
+    cmds = db.session.query(Commande).filter(
+        Commande.allo_id == allo_id,
+        Commande.status == StatusEnum.LIVRE
+    ).all()
+    section = 'LIVRE'
+    return gen_manage(allo_id, cmds, section)
 
 
 @app.route('/suivi/<cmd_id>')

@@ -3,7 +3,18 @@ function updateStatus(element, status) {
     let mainInfo = document.querySelector("#main-info-" + cmdId)
     let statusElement = mainInfo.querySelector(".status")
 
-    $.get("/change-status/" + cmdId + "/" + status, function (){
-        $(statusElement).load("/refresh-status/" + cmdId);
-    });
+    function updateAndRefresh() {
+        $.get("/change-status/" + cmdId + "/" + status, function (){
+            $(statusElement).load("/refresh-status/" + cmdId);
+        });
+    }
+
+    if (status === 'LIVRE') {
+        if (confirm('Es-tu sur de vouloir mettre la commande en livré ?')) {
+            updateAndRefresh();
+            refreshSuiviData();
+        }
+    } else {
+        updateAndRefresh();
+    }
 }
