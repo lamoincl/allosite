@@ -2,3 +2,5 @@
 /app/venv/
 /app/.idea/
 /.idea/
+/docker/certbot/conf/
+/docker/certbot/www/
