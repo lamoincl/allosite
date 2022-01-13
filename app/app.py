@@ -3,7 +3,8 @@ import datetime
 
 from flask import render_template, request, redirect, url_for, session, make_response
 from database import db, Commande, Idlogin, Allo, app, StatusEnum
-from utils import gen_sub_id, is_logged
+from utils import gen_sub_id, is_logged, specifique, specifique_template, ravitaillement, service, festif, jeux, \
+    egnimatique
 
 app.secret_key = 'P9Y44~NJmYr9rC4Ep$JE'
 
@@ -146,6 +147,36 @@ def suivi(cmd_id):
 def allos():
     all_allos = db.session.query(Allo).all()
     return render_template('allos/allos.html', allos=all_allos)
+
+
+@app.route('/allo-groupe/<group_id>')
+def allo_groupe(group_id):
+    group_id = int(group_id)
+    allos = []
+    group_name = ""
+
+    if group_id == 1:
+        for allo_id in ravitaillement:
+            allos.append(db.session.query(Allo).get(allo_id))
+            group_name = "Besoin de te ravitailler ?"
+    elif group_id == 2:
+        for allo_id in service:
+            allos.append(db.session.query(Allo).get(allo_id))
+            group_name = "Besoin d'un service ?"
+    elif group_id == 3:
+        for allo_id in festif:
+            allos.append(db.session.query(Allo).get(allo_id))
+            group_name = "Besoin de plus de fête ?"
+    elif group_id == 4:
+        for allo_id in jeux:
+            allos.append(db.session.query(Allo).get(allo_id))
+            group_name = "Envie de defier à un jeu la gaeliste ?"
+    else:
+        for allo_id in egnimatique:
+            allos.append(db.session.query(Allo).get(allo_id))
+            group_name = "Qu'est-ce que ça peut etre ?"
+
+    return render_template('allos/allo_group.html', allos=allos, group_name=group_name)
 
 
 @app.route('/allos/<allo_id>', methods=['GET', 'POST'])

@@ -39,6 +39,7 @@ class StatusEnum(enum.Enum):
     PREPARATION = "en préparation"
     LIVRAISON = "en cours de livraison"
     LIVRE = "livré"
+    ANNULE = "annulé"
 
     EXTE = "en exté"
     MEUH = "à la meuh"
@@ -65,6 +66,3 @@ class Idlogin(Base):
 
     login_id = db.Column(db.Integer, primary_key=True)
     login_date = db.Column(db.DateTime())
-
-
-Base.metadata.create_all(engine)

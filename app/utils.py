@@ -5,6 +5,17 @@ from flask import session
 from database import db, Idlogin
 from random import seed, randint
 
+specifique = range(1, 10)
+specifique_template = (
+                          'allos/crepe.html', 'allos/snack.html', 'allos/fastfood.html', 'allos/alcool.html',
+                          'allos/cocktail.html', 'allos/viennoiseries.html', 'allos/ciguarette.html',
+                          'allos/capotes.html', 'allos/covoit.html'
+                      )
+ravitaillement = range(1, 9)
+service = range(9, 15)
+festif = range(15, 17)
+jeux = range(17, 20)
+egnimatique = range(20, 22)
 
 def gen_sub_id():
     seed(randint(0, 100))
@@ -24,10 +35,6 @@ def is_logged():
         if lg is None:
             it_is = False
     return it_is
-
-
-standard = [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-quantitatif = [19, 21]
 
 
 def is_standard(allo_id):
