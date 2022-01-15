@@ -29,7 +29,7 @@ services:
     links:
       - app
     ports:
-#      - "80:80"
+      - "80:80"
       - "443:443"
 
   certbot:
