@@ -37,16 +37,16 @@ function onChangeLieu(selectedLieu) {
   let appartCol = appartInput.parentElement;
   let adresseInput = document.getElementById("adresse");
   let adresseCol = adresseInput.parentElement;
-  let hideString = 'display: none !important;'
+  let hideString = 'display: none !important';
 
   if (selectedLieu === 'EXTE') {
-    appartInput.removeAttribute("required")
-    adresseInput.setAttribute("required", "")
+    appartInput.removeAttribute("required");
+    adresseInput.setAttribute("required", "");
     appartCol.setAttribute("style", hideString);
     adresseCol.removeAttribute("style");
   } else {
-    appartInput.setAttribute("required", "")
-    adresseInput.removeAttribute("required")
+    appartInput.setAttribute("required", "");
+    adresseInput.removeAttribute("required");
     appartCol.removeAttribute("style");
     adresseCol.setAttribute("style", hideString);
   }

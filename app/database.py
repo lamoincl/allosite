@@ -2,8 +2,8 @@ import enum
 import sqlalchemy
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy import ForeignKey, Column, Integer, String, ARRAY, Enum, PickleType, Float
+from sqlalchemy.orm import declarative_base, relationship, backref
 
 app = Flask(__name__)
 
@@ -56,9 +56,114 @@ class Commande(Base):
     adress = db.Column(db.String(150), nullable=True)
     com = db.Column(db.String(300), default="")
     cmd_date = db.Column(db.DateTime())
+    prix = Column(Float, default=0)
 
     allo_id = db.Column(db.Integer, ForeignKey('allo.allo_id', ondelete="CASCADE"))
     allo = relationship("Allo", back_populates="commande")
+
+
+class CommandeCrepe(Base):
+    __tablename__ = 'crepe'
+
+    crepe_id = Column(Integer, primary_key=True)
+    crepe_suc = Column(Integer, default=0)
+    crepe_nut = Column(Integer, default=0)
+    crepe_con = Column(Integer, default=0)
+
+    cmd_id = Column(Integer, ForeignKey('commande.cmd_id'))
+    cmd = relationship("Commande", backref=backref("crepe", uselist=False))
+
+
+class CommandeSnack(Base):
+    __tablename__ = 'snack'
+
+    snack_id = Column(Integer, primary_key=True)
+    snack_kebab = Column(Integer, default=0)
+    snack_burger = Column(Integer, default=0)
+    snack_panini = Column(Integer, default=0)
+    snack_croque = Column(Integer, default=0)
+    snack_fanta = Column(Integer, default=0)
+    snack_coca = Column(Integer, default=0)
+    snack_icetea = Column(Integer, default=0)
+    snack_tropico = Column(Integer, default=0)
+    snack_oasis = Column(Integer, default=0)
+    snack_sevenup = Column(Integer, default=0)
+    snack_sevenupm = Column(Integer, default=0)
+    snack_com = Column(String(300))
+
+    cmd_id = Column(Integer, ForeignKey('commande.cmd_id'))
+    cmd = relationship("Commande", backref=backref("snack", uselist=False))
+
+
+class CommandeFastfood(Base):
+    __tablename__ = 'fastfood'
+
+    fastfood_id = Column(Integer, primary_key=True)
+
+    cmd_id = Column(Integer, ForeignKey('commande.cmd_id'))
+    cmd = relationship("Commande", backref=backref("fastfood", uselist=False))
+
+
+class CommandeAlcool(Base):
+    __tablename__ = 'alcool'
+
+    alcool_id = Column(Integer, primary_key=True)
+
+    cmd_id = Column(Integer, ForeignKey('commande.cmd_id'))
+    cmd = relationship("Commande", backref=backref("alcool", uselist=False))
+
+
+class CommandeCocktail(Base):
+    __tablename__ = 'cocktail'
+
+    cocktail_id = Column(Integer, primary_key=True)
+
+    cmd_id = Column(Integer, ForeignKey('commande.cmd_id'))
+    cmd = relationship("Commande", backref=backref("cocktail", uselist=False))
+
+
+class CommandeViennoiserie(Base):
+    __tablename__ = 'viennoiserie'
+
+    viennoiserie_id = Column(Integer, primary_key=True)
+    viennoiserie_pain = Column(Integer, default=0)
+    viennoiserie_croissant = Column(Integer, default=0)
+    viennoiserie_choco = Column(Integer, default=0)
+    viennoiserie_cafe = Column(Integer, default=0)
+
+    cmd_id = Column(Integer, ForeignKey('commande.cmd_id'))
+    cmd = relationship("Commande", backref=backref("viennoiserie", uselist=False))
+
+
+class CommandeCigarette(Base):
+    __tablename__ = 'cigarette'
+
+    cigarette_id = Column(Integer, primary_key=True)
+
+    cmd_id = Column(Integer, ForeignKey('commande.cmd_id'))
+    cmd = relationship("Commande", backref=backref("cigarette", uselist=False))
+
+
+class CommandeCapote(Base):
+    __tablename__ = 'capote'
+
+    capote_id = Column(Integer, primary_key=True)
+    capote_nombre = Column(Integer, default=0)
+
+    cmd_id = Column(Integer, ForeignKey('commande.cmd_id'))
+    cmd = relationship("Commande", backref=backref("capote", uselist=False))
+
+
+class CommandeCovoit(Base):
+    __tablename__ = 'covoit'
+
+    covoit_id = Column(Integer, primary_key=True)
+    covoit_depart = Column(String(100))
+    covoit_destination = Column(String(100))
+    covoit_nb = Column(Integer, default=0)
+
+    cmd_id = Column(Integer, ForeignKey('commande.cmd_id'))
+    cmd = relationship("Commande", backref=backref("covoit", uselist=False))
 
 
 class Idlogin(Base):

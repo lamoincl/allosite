@@ -2,6 +2,8 @@
             <h4 class="w3-wide">Ta commande est {{ cmd.status.value }} !</h4>
             <h6 class="w3-wide">Recapitulatif commande {{ cmd.allo.allo_nom }} :</h6>
             <p>
+                {% block data %}
+                {% endblock %}
                 Livraison {{ cmd.lieu.value }}<br>
                 {% if cmd.lieu.name == 'MEUH' %}
                 Appartement {{ cmd.appart }}

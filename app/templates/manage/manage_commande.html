@@ -44,6 +44,7 @@
             </tr>
         </thead>
         <tbody id="updContent">
+{% block spec %}
     {% for cmd in cmds %}
             <tr id="main-info-{{ cmd.cmd_id }}">
                 <th class="cmd-id" scope="row">{{ cmd.cmd_id }}</th>
@@ -72,11 +73,15 @@
                     <button onclick="updateStatus(this, 'LIVRE')">Livré</button>
                 </th>
             </tr>
+            <tr>
+                <th colspan="5"></th>
+            </tr>
     {% else %}
             <tr>
                 <th colspan="5">Il n'y a pas de commande pour ce allo !</th>
             </tr>
     {% endfor %}
+{% endblock %}
         </tbody>
     </table>
 {% endblock %}

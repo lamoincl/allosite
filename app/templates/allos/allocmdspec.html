@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 
 {% block body %}
-        <h2 class="w3-wide">{{ allo.allo_nom }}</h2>
-        <form class="allo-form w3-green" action="" method="post">
+        <div id="common" style="display: none !important;">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="lieu_opt" id="inlineRadio1" value="MEUH" onclick="onClickAppart()" {% if lieu is defined %}{% if lieu == 'MEUH' %}checked{% elif lieu == 'EXTE' %}{% endif %}{% else %}checked{% endif %} required>
                 <label class="form-check-label" for="inlineRadio1">Je suis à la meuh</label>
@@ -64,5 +63,11 @@
                     <button type="submit" class="btn-commander btn btn-primary">Commander</button>
                 </div>
             </div>
+        </div>
         </form>
+{% endblock %}
+
+{% block script %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/spec.js') }}"></script>
 {% endblock %}

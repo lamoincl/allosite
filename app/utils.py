@@ -7,10 +7,9 @@ from random import seed, randint
 
 specifique = range(1, 10)
 specifique_template = (
-                          'allos/crepe.html', 'allos/snack.html', 'allos/fastfood.html', 'allos/alcool.html',
-                          'allos/cocktail.html', 'allos/viennoiseries.html', 'allos/ciguarette.html',
-                          'allos/capotes.html', 'allos/covoit.html'
-                      )
+    'crepe.html', 'snack.html', 'fastfood.html', 'alcool.html', 'cocktail.html', 'viennoiseries.html',
+    'ciguarette.html', 'capotes.html', 'covoit.html'
+)
 ravitaillement = range(1, 9)
 service = range(9, 15)
 festif = range(15, 17)

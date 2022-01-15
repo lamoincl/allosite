@@ -2,7 +2,7 @@ import ast
 import datetime
 
 from flask import render_template, request, redirect, url_for, session, make_response
-from database import db, Commande, Idlogin, Allo, app, StatusEnum
+from database import db, Commande, Idlogin, Allo, app, StatusEnum, CommandeCrepe, CommandeSnack
 from utils import gen_sub_id, is_logged, specifique, specifique_template, ravitaillement, service, festif, jeux, \
     egnimatique
 
@@ -75,19 +75,36 @@ def index_manage():
             html_response = render_template('manage/index_commande.html', allos=all_allos, db=db, Commande=Commande, Allo=Allo, StatusEnum=StatusEnum)
         return html_response
     else:
-        return redirect(url_for('login', next='/manage-commande'))
+        if request.args.get("refresh") is not None:
+            all_allos = db.session.query(Allo).all()
+            html_response = render_template('refresh/manage_index.html', allos=all_allos, db=db, Commande=Commande, Allo=Allo, StatusEnum=StatusEnum)
+        else:
+            html_response = redirect(url_for('login', next='/manage-commande'))
+        return html_response
 
 
 def gen_manage(allo_id, cmds, section):
+    allo_id = int(allo_id)
     if is_logged():
         allo = db.session.query(Allo).get(allo_id)
         if request.args.get("refresh") is not None:
-            html_response = render_template('refresh/manage_commande.html', cmds=cmds, allo=allo, section=section)
+            if allo_id in specifique:
+                html_response = render_template('manage/refresh/' + specifique_template[allo_id - 1], cmds=cmds, allo=allo, section=section)
+            else:
+                html_response = render_template('refresh/manage_commande.html', cmds=cmds, allo=allo, section=section)
         else:
-            html_response = render_template('manage/manage_commande.html', cmds=cmds, allo=allo, section=section)
+            if allo_id in specifique:
+                html_response = render_template('manage/' + specifique_template[allo_id - 1], cmds=cmds, allo=allo, section=section)
+            else:
+                html_response = render_template('manage/manage_commande.html', cmds=cmds, allo=allo, section=section)
         return html_response
     else:
-        return redirect(url_for('login', next='/manage-commande/' + str(allo_id)))
+        if request.args.get("refresh") is not None:
+            allo = db.session.query(Allo).get(allo_id)
+            html_response = render_template('refresh/manage_commande.html', cmds=cmds, allo=allo, section=section)
+        else:
+            html_response = redirect(url_for('login', next='/manage-commande/' + str(allo_id)))
+        return html_response
 
 
 @app.route('/manage-commande/<allo_id>')
@@ -135,10 +152,17 @@ def manage_livre(allo_id):
 @app.route('/suivi/<cmd_id>')
 def suivi(cmd_id):
     cmd = db.session.query(Commande).get(cmd_id)
+    allo_id = cmd.allo.allo_id
     if request.args.get("refresh") is not None:
-        html_response = render_template('refresh/suivi.html', cmd=cmd)
+        if allo_id in specifique:
+            html_response = render_template('spec_suivi_refresh/' + specifique_template[allo_id - 1], cmd=cmd)
+        else:
+            html_response = render_template('refresh/suivi.html', cmd=cmd)
     else:
-        html_response = render_template('suivi.html', cmd=cmd)
+        if allo_id in specifique:
+            html_response = render_template('spec_suivi/' + specifique_template[allo_id - 1], cmd=cmd)
+        else:
+            html_response = render_template('suivi.html', cmd=cmd)
 
     return html_response
 
@@ -152,37 +176,37 @@ def allos():
 @app.route('/allo-groupe/<group_id>')
 def allo_groupe(group_id):
     group_id = int(group_id)
-    allos = []
-    group_name = ""
+    allos_grp = []
 
     if group_id == 1:
         for allo_id in ravitaillement:
-            allos.append(db.session.query(Allo).get(allo_id))
-            group_name = "Besoin de te ravitailler ?"
+            allos_grp.append(db.session.query(Allo).get(allo_id))
+        group_name = "Besoin de te ravitailler ?"
     elif group_id == 2:
         for allo_id in service:
-            allos.append(db.session.query(Allo).get(allo_id))
-            group_name = "Besoin d'un service ?"
+            allos_grp.append(db.session.query(Allo).get(allo_id))
+        group_name = "Besoin d'un service ?"
     elif group_id == 3:
         for allo_id in festif:
-            allos.append(db.session.query(Allo).get(allo_id))
-            group_name = "Besoin de plus de fête ?"
+            allos_grp.append(db.session.query(Allo).get(allo_id))
+        group_name = "Besoin de plus de fête ?"
     elif group_id == 4:
         for allo_id in jeux:
-            allos.append(db.session.query(Allo).get(allo_id))
-            group_name = "Envie de defier à un jeu la gaeliste ?"
+            allos_grp.append(db.session.query(Allo).get(allo_id))
+        group_name = "Envie de defier à un jeu la gaeliste ?"
     else:
         for allo_id in egnimatique:
-            allos.append(db.session.query(Allo).get(allo_id))
-            group_name = "Qu'est-ce que ça peut etre ?"
+            allos_grp.append(db.session.query(Allo).get(allo_id))
+        group_name = "Qu'est-ce que ça peut etre ?"
 
-    return render_template('allos/allo_group.html', allos=allos, group_name=group_name)
+    return render_template('allos/allo_group.html', allos=allos_grp, group_name=group_name)
 
 
 @app.route('/allos/<allo_id>', methods=['GET', 'POST'])
 def allo_cmd(allo_id):
     template_name = 'allos/allocmd.html'
-    html_response = render_template(template_name)
+    allo_id = int(allo_id)
+    allo = db.session.query(Allo).get(allo_id)
 
     if request.method == 'POST':
         form_values = {
@@ -192,6 +216,9 @@ def allo_cmd(allo_id):
             'allo_id': allo_id
         }
         save_mode = False
+
+        if 'prix' in request.form:
+            form_values['prix'] = request.form['prix']
 
         if 'gridCheck' in request.form:
             save_mode = True
@@ -214,13 +241,43 @@ def allo_cmd(allo_id):
         db.session.add(new_cmd)
         db.session.commit()
 
+        if allo_id in specifique:
+            spec_values = {'cmd_id': new_cmd.cmd_id}
+            if allo_id == 1:
+                spec_values['crepe_nut'] = request.form['pate']
+                spec_values['crepe_con'] = request.form['confiture']
+                spec_values['crepe_suc'] = request.form['sucre']
+                new_spec_cmd = CommandeCrepe(**spec_values)
+            elif allo_id == 2:
+                spec_values['snack_kebab'] = request.form['kebab']
+                spec_values['snack_burger'] = request.form['burger']
+                spec_values['snack_panini'] = request.form['panini']
+                spec_values['snack_croque'] = request.form['croque']
+                spec_values['snack_fanta'] = request.form['FANTA']
+                spec_values['snack_coca'] = request.form['COCA']
+                spec_values['snack_icetea'] = request.form['ICETEA']
+                spec_values['snack_tropico'] = request.form['TROPICO']
+                spec_values['snack_oasis'] = request.form['OASIS']
+                spec_values['snack_sevenup'] = request.form['SEVENUP']
+                spec_values['snack_sevenupm'] = request.form['SEVENUPMOJITO']
+                spec_values['snack_com'] = request.form['sncom']
+                new_spec_cmd = CommandeSnack(**spec_values)
+
+            db.session.add(new_spec_cmd)
+            db.session.commit()
+
         html_response = make_response(redirect(url_for('suivi', cmd_id=new_cmd.cmd_id)))
         if save_mode:
             html_response.set_cookie('coord_saved', str(saved_value), max_age=None)
     else:
+        if allo_id in specifique:
+            template_name = 'allos/' + specifique_template[allo_id - 1]
+
+        html_response = render_template(template_name, allo=allo)
+
         if request.cookies.get("coord_saved") is not None:
             coord_get = ast.literal_eval(request.cookies.get("coord_saved"))
-            html_response = render_template(template_name, **coord_get)
+            html_response = render_template(template_name, **coord_get, allo=allo)
 
     return html_response
 

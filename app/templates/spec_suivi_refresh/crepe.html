@@ -1,0 +1,13 @@
+{% extends 'refresh/suivi.html' %}
+
+{% block data %}
+    {% if cmd.crepe.crepe_nut > 0 %}
+        Nombre de crêpes à la pate a tartiner : {{ cmd.crepe.crepe_nut }} <br>
+    {% endif %}
+    {% if cmd.crepe.crepe_con > 0 %}
+        Nombre de crêpes à la confiture: {{ cmd.crepe.crepe_con }} <br>
+    {% endif %}
+    {% if cmd.crepe.crepe_suc > 0 %}
+        Nombre de crêpes au sucre: {{ cmd.crepe.crepe_suc }} <br>
+    {% endif %}
+{% endblock %}

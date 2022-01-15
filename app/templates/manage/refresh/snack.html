@@ -1,0 +1,62 @@
+    {% for cmd in cmds %}
+            <tr id="main-info-{{ cmd.cmd_id }}">
+                <th class="cmd-id" scope="row">{{ cmd.cmd_id }}</th>
+                <td>{{ cmd.id_fb }}</td>
+                {% if cmd.lieu.name == 'MEUH' %}
+                <td>{{ cmd.appart }}</td>
+                {% else %}
+                <td>{{ cmd.adress }}</td>
+                {% endif %}
+                <td class="status">{{ cmd.status.name }}</td>
+                <td>{{ cmd.cmd_date.time().strftime("%Hh%M") }}</td>
+            </tr>
+            {% if cmd.com != '' %}
+            <tr>
+                <th>com:</th>
+                <th colspan="4">{{ cmd.com }}</th>
+            </tr>
+            {% endif %}
+            <tr>
+                <th>Menus :</th>
+                <th>Kebab : {{ cmd.snack.snack_kebab }}</th>
+                <th>Burger : {{ cmd.snack.snack_burger }}</th>
+                <th>Panini : {{ cmd.snack.snack_panini }}</th>
+                <th>Croque-monsieur : {{ cmd.snack.snack_croque }}</th>
+            </tr>
+            <tr>
+                <th>Boissons :</th>
+                <th>Fanta : {{ cmd.snack.snack_fanta }}</th>
+                <th>Coca : {{ cmd.snack.snack_coca }}</th>
+                <th>IceTea : {{ cmd.snack.snack_icetea }}</th>
+                <th>Tropico : {{ cmd.snack.snack_tropico }}</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th>Oasis : {{ cmd.snack.snack_oasis }}</th>
+                <th>7up : {{ cmd.snack.snack_sevenup }}</th>
+                <th colspan="2">7up mojito : {{ cmd.snack.snack_sevenupm }}</th>
+            </tr>
+            {% if cmd.snack.snack_com != '' %}
+            <tr>
+                <th>Demandes sur les menus</th>
+                <th colspan="4">{{ cmd.snack.snack_com }}</th>
+            </tr>
+            {% endif %}
+            <tr>
+                <th id="{{ cmd.cmd_id }}" colspan="5">
+                    {% if not cmd.allo.est_gratuit %}
+                    <button onclick="updateStatus(this, 'PAYE')">Payé</button>
+                    {% endif %}
+                    <button onclick="updateStatus(this, 'PREPARATION')">Préparation</button>
+                    <button onclick="updateStatus(this, 'LIVRAISON')">Livraison</button>
+                    <button onclick="updateStatus(this, 'LIVRE')">Livré</button>
+                </th>
+            </tr>
+            <tr>
+                <th colspan="5"></th>
+            </tr>
+    {% else %}
+            <tr>
+                <th colspan="5">Il n'y a pas de commande pour ce allo !</th>
+            </tr>
+    {% endfor %}

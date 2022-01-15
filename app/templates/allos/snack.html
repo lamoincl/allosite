@@ -1,0 +1,79 @@
+{% extends 'allos/allocmdspec.html' %}
+
+{% block body %}
+        <h2 class="w3-wide">{{ allo.allo_nom }}</h2>
+        <form class="allo-form w3-green" action="" method="post">
+        <div id="spec">
+            <h2>Menus :</h2>
+            <div class="form-outline">
+                <label class="form-label" for="kebab">Menu Kebab (kebab + frites + boisson : 6,5€) :</label>
+                <input type="number" id="kebab" name="kebab" value="0" class="form-control" min="0" onchange="updatePrix()"/>
+            </div>
+            <div class="form-outline">
+                <label class="form-label" for="burger">Menu Burger (burger + frites + boisson : 6€) :</label>
+                <input type="number" id="burger" name="burger" value="0" class="form-control" min="0" onchange="updatePrix()"/>
+            </div>
+            <div class="form-outline">
+                <label class="form-label" for="panini">Menu Panini (panini + frites + boisson : 5€) :</label>
+                <input type="number" id="panini" name="panini" value="0" class="form-control" min="0" onchange="updatePrix()"/>
+            </div>
+            <div class="form-outline">
+                <label class="form-label" for="croque">Menu Croque-monsieur (croque-monsieur + frites + boisson : 4,5€) :</label>
+                <input type="number" id="croque" name="croque" value="0" class="form-control" min="0" onchange="updatePrix()"/>
+            </div>
+            <h2>Boissons : <div id="boisson"></div></h2>
+            <div class="row">
+                <div class="col">
+                    <label class="form-label" for="FANTA">Fanta</label>
+                    <input type="number" id="FANTA" name="FANTA" value="0" class="form-control" min="0" onchange="updateBoisson()"/>
+                </div>
+                <div class="col">
+                    <label class="form-label" for="COCA">Coca</label>
+                    <input type="number" id="COCA" name="COCA" value="0" class="form-control" min="0" onchange="updateBoisson()"/>
+                </div>
+                <div class="col">
+                    <label class="form-label" for="ICETEA">Ice tea</label>
+                    <input type="number" id="ICETEA" name="ICETEA" value="0" class="form-control" min="0" onchange="updateBoisson()"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-label" for="TROPICO">Tropico</label>
+                    <input type="number" id="TROPICO" name="TROPICO" value="0" class="form-control" min="0" onchange="updateBoisson()"/>
+                </div>
+                <div class="col">
+                    <label class="form-label" for="OASIS">Oasis</label>
+                    <input type="number" id="OASIS" name="OASIS" value="0" class="form-control" min="0" onchange="updateBoisson()"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-label" for="SEVENUP">7up</label>
+                    <input type="number" id="SEVENUP" name="SEVENUP" value="0" class="form-control" min="0" onchange="updateBoisson()"/>
+                </div>
+                <div class="col">
+                    <label class="form-label" for="SEVENUPMOJITO">7up mojito</label>
+                    <input type="number" id="SEVENUPMOJITO" name="SEVENUPMOJITO" value="0" class="form-control" min="0" onchange="updateBoisson()"/>
+                </div>
+            </div>
+            <h3>Total à payer: <div id="prix">0</div>€</h3>
+            <input type="hidden" id="input-prix" name="prix" value="0">
+            <div class="form-group">
+                <label for="sncom">Tu veux nous indiquer des précisions dans un des menus ?</label>
+                <textarea class="form-control" id="sncom" name="sncom" rows="2"></textarea>
+            </div>
+            <div id="snack-alert" style="display: none !important;"></div>
+
+            <div class="row">
+                <div class="col text-right">
+                    <div onclick="continuerSnack()" class="btn-commander btn btn-primary">Continuer</div>
+                </div>
+            </div>
+        </div>
+        {{ super() }}
+{% endblock %}
+
+{% block script %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/snack.js') }}"></script>
+{% endblock %}
