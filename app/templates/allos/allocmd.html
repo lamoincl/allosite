@@ -23,7 +23,7 @@
                     <input type="text" class="form-control" id="appart" name="appart" value="{{ appart }}" placeholder="Y16" pattern="^[a-zA-Z][0-9][0-9]$" {% if lieu == 'MEUH' %}required{% elif lieu == 'EXTE' %}{% else %}required{% endif %}>
                 </div>
                 <div class="col" style="display: none !important;">
-                    <label for="adresse">Adresse :</label>
+                    <label for="adresse">Adresse :<br><i style="font-size: 0.5em">Ne seront acceptées que les livraisons dans Alès</i></label>
                     <input type="text" class="form-control" id="adresse" name="adresse" value="{{ adress }}" placeholder="1 Place Gabriel Péri" {% if lieu == 'EXTE' %}required{% endif %}>
                 </div>
                 {% else %}
