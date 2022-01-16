@@ -20,7 +20,7 @@ function updateStatus(element, status) {
 }
 
 function iterateMainInfo() {
-    let tr = document.getElementsByClassName("main-info")
+    let tr = document.getElementsByClassName("main-info");
 
     for (let i = 0; i < tr.length; i++) {
         dateUpdate(tr.item(i));
@@ -34,7 +34,7 @@ function dateUpdate(element) {
     let vingtminutesavant = new Date(heure - 20 * 60 * 1000);
     let d = dixminutesavant.toLocaleTimeString();
     let e = vingtminutesavant.toLocaleTimeString();
-    let c = element.querySelector('.time');
+    let c = element.querySelector('.time').value;
     if (c < d) {
         element.style.backgroundColor = '#FFE300';
     }
@@ -42,4 +42,5 @@ function dateUpdate(element) {
         element.style.backgroundColor = '#FF0000';
     }
 }
+iterateMainInfo();
 setInterval(iterateMainInfo, 60000);
