@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(staging-gaeliste.clamoine.fr)
+domains=(gaeliste.fr)
 rsa_key_size=4096
 data_path="./docker/certbot"
 email="clement.lamoine@mines-ales.org" # Adding a valid address is strongly recommended
