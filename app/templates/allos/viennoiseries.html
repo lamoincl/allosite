@@ -1,1 +1,37 @@
-{% extends 'allos/allocmd.html' %}
+{% extends 'allos/allocmdspec.html' %}
+
+{% block body %}
+            <h2 class="w3-wide">{{ allo.allo_nom }}</h2>
+            <form class="allo-form w3-green" action="" method="post">
+            <div id="spec">
+            <div class="row">
+                <div class="col">
+                    <div>Je veux</div>
+                </div>
+                <div class="col" style="text-align: left">
+                    <input class="form-check-input" type="radio" name="miam" id="pain" value="pain" onclick="onClickAppart()">
+                    <label class="form-check-label" for="pain">un pain au chocolat</label><br>
+                    <input class="form-check-input" type="radio" name="miam" id="croissant" value="croissant" onclick="onClickAdresse()">
+                    <label class="form-check-label" for="croissant">un croissant</label>
+                </div>
+            </div>
+                <br>
+            <div class="row">
+                <div class="col">
+                    <div>En boisson je veux</div>
+                </div>
+                <div class="col" style="text-align: left">
+                    <input class="form-check-input" type="radio" name="slurp" id="choco" value="choco" onclick="onClickAppart()">
+                    <label class="form-check-label" for="choco">un chocolat chaud</label><br>
+                    <input class="form-check-input" type="radio" name="slurp" id="cafe" value="cafe" onclick="onClickAdresse()">
+                    <label class="form-check-label" for="cafe">un café</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-right">
+                    <div onclick="continuer()" class="btn-commander btn btn-primary">Continuer</div>
+                </div>
+            </div>
+            </div>
+            {{ super() }}
+{% endblock %}

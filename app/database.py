@@ -2,7 +2,7 @@ import enum
 import sqlalchemy
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import ForeignKey, Column, Integer, String, ARRAY, Enum, PickleType, Float
+from sqlalchemy import ForeignKey, Column, Integer, String, ARRAY, Enum, PickleType, Float, Boolean, Time
 from sqlalchemy.orm import declarative_base, relationship, backref
 
 app = Flask(__name__)
@@ -40,6 +40,7 @@ class StatusEnum(enum.Enum):
     LIVRAISON = "en cours de livraison"
     LIVRE = "livré"
     ANNULE = "annulé"
+    VALIDE = "validé"
 
     EXTE = "en exté"
     MEUH = "à la meuh"
@@ -99,6 +100,7 @@ class CommandeFastfood(Base):
     __tablename__ = 'fastfood'
 
     fastfood_id = Column(Integer, primary_key=True)
+    fastfood_commande = Column(String(1000))
 
     cmd_id = Column(Integer, ForeignKey('commande.cmd_id'))
     cmd = relationship("Commande", backref=backref("fastfood", uselist=False))
@@ -126,10 +128,10 @@ class CommandeViennoiserie(Base):
     __tablename__ = 'viennoiserie'
 
     viennoiserie_id = Column(Integer, primary_key=True)
-    viennoiserie_pain = Column(Integer, default=0)
-    viennoiserie_croissant = Column(Integer, default=0)
-    viennoiserie_choco = Column(Integer, default=0)
-    viennoiserie_cafe = Column(Integer, default=0)
+    viennoiserie_pain = Column(Boolean)
+    viennoiserie_croissant = Column(Boolean)
+    viennoiserie_choco = Column(Boolean)
+    viennoiserie_cafe = Column(Boolean)
 
     cmd_id = Column(Integer, ForeignKey('commande.cmd_id'))
     cmd = relationship("Commande", backref=backref("viennoiserie", uselist=False))
@@ -160,7 +162,7 @@ class CommandeCovoit(Base):
     covoit_id = Column(Integer, primary_key=True)
     covoit_depart = Column(String(100))
     covoit_destination = Column(String(100))
-    covoit_nb = Column(Integer, default=0)
+    covoit_heure = Column(String(50))
 
     cmd_id = Column(Integer, ForeignKey('commande.cmd_id'))
     cmd = relationship("Commande", backref=backref("covoit", uselist=False))

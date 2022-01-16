@@ -1,0 +1,64 @@
+{% extends 'manage/manage_commande.html' %}
+
+{% block body %}
+        <h1>{{ allo.allo_nom }} -
+    {% if section == 'GLOBAL' %}
+        Toutes les commandes
+    {% elif section == 'MEUH' %}
+        Commandes de la meuh
+    {% elif section == 'EXTE' %}
+        Commandes en exte
+    {% elif section == 'LIVRE' %}
+        Commandes livrés
+    {% endif %}
+    </h1>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Facebook <br> n° tel</th>
+                <th scope="col">Status</th>
+                <th scope="col">Heure</th>
+            </tr>
+        </thead>
+        <tbody id="updContent">
+    {% for cmd in cmds %}
+            <tr id="main-info-{{ cmd.cmd_id }}">
+                <th class="cmd-id" scope="row">{{ cmd.cmd_id }}</th>
+                <td>{{ cmd.id_fb }}</td>
+                <td class="status">{{ cmd.status.name }}</td>
+                <td>{{ cmd.cmd_date.time().strftime("%Hh%M") }}</td>
+            </tr>
+            {% if cmd.com != '' %}
+            <tr>
+                <th>com:</th>
+                <th colspan="3">{{ cmd.com }}</th>
+            </tr>
+            {% endif %}
+            <tr>
+                <th>Départ :</th>
+                <th>{{ cmd.covoit.covoit_depart }}</th>
+                <th>Arrivée :</th>
+                <th>{{ cmd.covoit.covoit_destination }}</th>
+            </tr>
+            <tr>
+                <th colspan="2">Heure du rdv :</th>
+                <th colspan="2">{{ cmd.covoit.covoit_heure }}</th>
+            </tr>
+            <tr>
+                <th id="{{ cmd.cmd_id }}" colspan="4">
+                    <button onclick="updateStatus(this, 'VALIDE')">Validé</button>
+                    <button onclick="updateStatus(this, 'LIVRE')">Livré (Fini)</button>
+                </th>
+            </tr>
+            <tr>
+                <th colspan="4"></th>
+            </tr>
+    {% else %}
+            <tr>
+                <th colspan="4">Il n'y a pas de commande pour ce allo !</th>
+            </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
