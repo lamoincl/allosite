@@ -2,6 +2,8 @@ import ast
 import datetime
 
 from flask import render_template, request, redirect, url_for, session, make_response
+from sqlalchemy import desc
+
 from database import db, Commande, Idlogin, Allo, app, StatusEnum, CommandeCrepe, CommandeSnack, CommandeViennoiserie, \
     CommandeFastfood, CommandeCapote, CommandeCovoit
 from utils import gen_sub_id, is_logged, specifique, specifique_template, ravitaillement, service, festif, jeux, \
@@ -149,7 +151,7 @@ def manage_livre(allo_id):
     cmds = db.session.query(Commande).filter(
         Commande.allo_id == allo_id,
         Commande.status == StatusEnum.LIVRE
-    ).all()
+    ).order_by(desc(Commande.cmd_id))
     section = 'LIVRE'
     return gen_manage(allo_id, cmds, section)
 
@@ -306,6 +308,42 @@ def allo_cmd(allo_id):
 @app.route('/presentation')
 def presentation():
     return render_template('presentation.html')
+
+
+@app.route('/espace-snack/<status>', methods=['GET', 'POST'])
+def espace_snack(status):
+    if not is_logged():
+        wrong = 0
+        if request.method == 'POST':
+            if request.form['mdp'] == 'miaMmiAm':
+                lg_id = gen_sub_id()
+                session['lg'] = lg_id
+                return redirect(url_for('espace_snack', status=status))
+            else:
+                wrong = 1
+        html_response = render_template('login.html', wrong=wrong)
+    else:
+        if status is None:
+            status = 'ENCOURS'
+        if status == 'ENCOURS':
+            cmds = db.session.query(Commande).filter(
+                Commande.allo_id == 2,
+                Commande.status != StatusEnum.LIVRE,
+                Commande.status != StatusEnum.ENVOYE,
+                Commande.status != StatusEnum.LIVRAISON
+            ).all()
+        elif status == 'TERMINE':
+            cmds = db.session.query(Commande).filter(
+                Commande.allo_id == 2,
+                Commande.status != StatusEnum.ENVOYE,
+                Commande.status != StatusEnum.PAYE,
+                Commande.status != StatusEnum.PREPARATION
+            ).order_by(desc(Commande.cmd_id))
+        if request.args.get("refresh") is not None:
+            html_response = render_template('refresh/espace-snack.html', cmds=cmds, section=status)
+        else:
+            html_response = render_template('espace-snack.html', cmds=cmds, section=status)
+    return html_response
 
 
 if __name__ == '__main__':

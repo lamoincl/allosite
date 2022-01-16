@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block nav %}
+        <div class="w3-top">
+            <div class="w3-bar w3-green w3-card">
+                <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+                <a href="{{ url_for('espace_snack', status='ENCOURS') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small {% if section == 'ENCOURS' %}highlight{% endif %}">COMMANDES EN COURS</a>
+                <a href="{{ url_for('espace_snack', status='TERMINE') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small {% if section == 'TERMINE' %}highlight{% endif %}">COMMANDES TERMINEE</a>
+            </div>
+        </div>
+
+        <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+        <div id="navDemo" class="w3-bar-block w3-green w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
+            <a href="{{ url_for('espace_snack', status='ENCOURS') }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">COMMANDES EN COURS</a>
+            <a href="{{ url_for('espace_snack', status='TERMINE') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small" onclick="myFunction()">COMMANDES TERMINEE</a>
+
+        </div>
+{% endblock %}
+
+{% block body %}
+    <h1>Snack -
+    {% if section == 'ENCOURS' %}
+        Commandes en cours
+    {% elif section == 'TERMINE' %}
+        Commandes terminées
+    {% endif %}
+    </h1>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Facebook <br> n° tel</th>
+                <th scope="col">Adresse</th>
+                <th scope="col">Status</th>
+                <th scope="col">Heure</th>
+            </tr>
+        </thead>
+        <tbody id="updContent">
+{% block spec %}
+    {% for cmd in cmds %}
+            <tr id="main-info-{{ cmd.cmd_id }}" class="main-info">
+                <input type="hidden" class="time" value="{{ cmd.cmd_date.time() }}">
+                <th class="cmd-id" scope="row">{{ cmd.cmd_id }}</th>
+                <td>{{ cmd.id_fb }}</td>
+                {% if cmd.lieu.name == 'MEUH' %}
+                <td>{{ cmd.appart }}</td>
+                {% else %}
+                <td>{{ cmd.adress }}</td>
+                {% endif %}
+                <td class="status">{{ cmd.status.name }}</td>
+                <td>{{ cmd.cmd_date.time().strftime("%Hh%M") }}</td>
+            </tr>
+            {% if cmd.com != '' %}
+            <tr>
+                <th>com:</th>
+                <th colspan="4">{{ cmd.com }}</th>
+            </tr>
+            {% endif %}
+            <tr>
+                <th>Menus :</th>
+                <th>Kebab : {{ cmd.snack.snack_kebab }}</th>
+                <th>Burger : {{ cmd.snack.snack_burger }}</th>
+                <th>Panini : {{ cmd.snack.snack_panini }}</th>
+                <th>Croque-monsieur : {{ cmd.snack.snack_croque }}</th>
+            </tr>
+            <tr>
+                <th>Boissons :</th>
+                <th>Fanta : {{ cmd.snack.snack_fanta }}</th>
+                <th>Coca : {{ cmd.snack.snack_coca }}</th>
+                <th>IceTea : {{ cmd.snack.snack_icetea }}</th>
+                <th>Tropico : {{ cmd.snack.snack_tropico }}</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th>Oasis : {{ cmd.snack.snack_oasis }}</th>
+                <th>7up : {{ cmd.snack.snack_sevenup }}</th>
+                <th colspan="2">7up mojito : {{ cmd.snack.snack_sevenupm }}</th>
+            </tr>
+            {% if cmd.snack.snack_com != '' %}
+            <tr>
+                <th>Demandes sur les menus</th>
+                <th colspan="4">{{ cmd.snack.snack_com }}</th>
+            </tr>
+            {% endif %}
+            <tr>
+                <th id="{{ cmd.cmd_id }}" colspan="5">
+                    <button onclick="updateStatus(this, 'PREPARATION')">Commande en préparation</button>
+                    <button onclick="updateStatus(this, 'LIVRAISON')">Prêt pour livraison</button>
+                </th>
+            </tr>
+            <tr>
+                <th colspan="5"></th>
+            </tr>
+    {% else %}
+            <tr>
+                <th colspan="5">Il n'y a pas de commande pour l'instant !</th>
+            </tr>
+    {% endfor %}
+{% endblock %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block script %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/suivi.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/manage.js') }}"></script>
+{% endblock %}
