@@ -1,20 +1,5 @@
     {% for cmd in cmds %}
             <tr id="main-info-{{ cmd.cmd_id }}">
-                <script>
-                    var today = new Date();
-                    var heure = today.getTime();
-                    var dixminutesavant = new Date(heure - 10*60*1000);
-                    var vingtminutesavant = new Date(heure - 20*60*1000);
-                    var d = dixminutesavant.toLocaleTimeString();
-                    var e = vingtminutesavant.toLocaleTimeString();
-                    var c= "{{cmd.cmd_date.time()}}";
-                    if (c<d) {
-                      document.getElementById("main-info-{{ cmd.cmd_id }}").style.backgroundColor = '#FFE300';
-                    }
-                    if (c<e) {
-                    document.getElementById("main-info-{{ cmd.cmd_id }}").style.backgroundColor = '#FF0000';
-                    }
-                </script>
                 <th class="cmd-id" scope="row">{{ cmd.cmd_id }}</th>
                 <td>{{ cmd.id_fb }}</td>
                 {% if cmd.lieu.name == 'MEUH' %}
