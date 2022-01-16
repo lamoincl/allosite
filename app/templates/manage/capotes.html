@@ -2,7 +2,8 @@
 
 {% block spec %}
         {% for cmd in cmds %}
-            <tr id="main-info-{{ cmd.cmd_id }}">
+            <tr id="main-info-{{ cmd.cmd_id }}" class="main-info">
+                <input type="hidden" class="time" value="{{ cmd.cmd_date.time() }}">
                 <th class="cmd-id" scope="row">{{ cmd.cmd_id }}</th>
                 <td>{{ cmd.id_fb }}</td>
                 {% if cmd.lieu.name == 'MEUH' %}

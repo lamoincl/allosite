@@ -46,7 +46,8 @@
         <tbody id="updContent">
 {% block spec %}
     {% for cmd in cmds %}
-            <tr id="main-info-{{ cmd.cmd_id }}">
+            <tr id="main-info-{{ cmd.cmd_id }}" class="main-info">
+                <input type="hidden" class="time" value="{{ cmd.cmd_date.time() }}">
                 <th class="cmd-id" scope="row">{{ cmd.cmd_id }}</th>
                 <td>{{ cmd.id_fb }}</td>
                 {% if cmd.lieu.name == 'MEUH' %}
@@ -90,22 +91,4 @@
     {{ super() }}
     <script type="text/javascript" src="{{ url_for('static', filename='js/suivi.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/manage.js') }}"></script>
-    <script>
-        function dateUpdate() {
-            let today = new Date();
-            let heure = today.getTime();
-            let dixminutesavant = new Date(heure - 10 * 60 * 1000);
-            let vingtminutesavant = new Date(heure - 20 * 60 * 1000);
-            let d = dixminutesavant.toLocaleTimeString();
-            let e = vingtminutesavant.toLocaleTimeString();
-            let c = "{{cmd.cmd_date.time()}}";
-            if (c < d) {
-                document.getElementById("main-info-{{ cmd.cmd_id }}").style.backgroundColor = '#FFE300';
-            }
-            if (c < e) {
-                document.getElementById("main-info-{{ cmd.cmd_id }}").style.backgroundColor = '#FF0000';
-            }
-        }
-        setTimeout(dateUpdate, 60000);
-    </script>
 {% endblock %}
