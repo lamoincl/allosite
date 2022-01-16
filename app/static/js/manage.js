@@ -43,4 +43,6 @@ function dateUpdate(element) {
     }
 }
 iterateMainInfo();
-setInterval(iterateMainInfo, 60000);
+setInterval(function () {
+    iterateMainInfo();
+}, 60000);
