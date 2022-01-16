@@ -1,1 +1,18 @@
-{% extends 'allos/allocmd.html' %}
+{% extends 'allos/allocmdspec.html' %}
+
+{% block body %}
+            <h2 class="w3-wide">{{ allo.allo_nom }}</h2>
+            <form class="allo-form w3-green" action="" method="post">
+            <div id="spec">
+            <div class="form-group">
+                <label for="commande">Ecris nous ci-dessous ta commande dans un fast-food d'Alès (Oublie pas de le préciser dans le message) :</label>
+                <textarea class="form-control" id="commande" name="commande" maxlength="1000" rows="2"></textarea>
+            </div>
+            <div class="row">
+                <div class="col text-right">
+                    <div onclick="continuer()" class="btn-commander btn btn-primary">Continuer</div>
+                </div>
+            </div>
+            </div>
+            {{ super() }}
+{% endblock %}

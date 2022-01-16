@@ -2,7 +2,8 @@ import ast
 import datetime
 
 from flask import render_template, request, redirect, url_for, session, make_response
-from database import db, Commande, Idlogin, Allo, app, StatusEnum, CommandeCrepe, CommandeSnack
+from database import db, Commande, Idlogin, Allo, app, StatusEnum, CommandeCrepe, CommandeSnack, CommandeViennoiserie, \
+    CommandeFastfood, CommandeCapote, CommandeCovoit
 from utils import gen_sub_id, is_logged, specifique, specifique_template, ravitaillement, service, festif, jeux, \
     egnimatique
 
@@ -34,6 +35,10 @@ def change_status(cmd_id, status):
             commande.status = StatusEnum.LIVRAISON
         elif status == 'LIVRE':
             commande.status = StatusEnum.LIVRE
+        elif status == 'VALIDE':
+            commande.status = StatusEnum.VALIDE
+        elif status == 'ANNULE':
+            commande.status = StatusEnum.ANNULE
         db.session.commit()
     return "<h1>Cette page n'est accessible normalement :( !</h1>"
 
@@ -262,10 +267,26 @@ def allo_cmd(allo_id):
                 spec_values['snack_sevenupm'] = request.form['SEVENUPMOJITO']
                 spec_values['snack_com'] = request.form['sncom']
                 new_spec_cmd = CommandeSnack(**spec_values)
+            elif allo_id == 3:
+                spec_values['fastfood_commande'] = request.form['commande']
+                new_spec_cmd = CommandeFastfood(**spec_values)
+            elif allo_id == 6:
+                spec_values['viennoiserie_pain'] = request.form['miam'] == "pain"
+                spec_values['viennoiserie_croissant'] = request.form['miam'] == "croissant"
+                spec_values['viennoiserie_choco'] = request.form['slurp'] == "choco"
+                spec_values['viennoiserie_cafe'] = request.form['slurp'] == "cafe"
+                new_spec_cmd = CommandeViennoiserie(**spec_values)
+            elif allo_id == 8:
+                spec_values['capote_nombre'] = request.form['capote']
+                new_spec_cmd = CommandeCapote(**spec_values)
+            elif allo_id == 9:
+                spec_values['covoit_depart'] = request.form['adresse']
+                spec_values['covoit_destination'] = request.form['arrive']
+                spec_values['covoit_heure'] = request.form['heure']
+                new_spec_cmd = CommandeCovoit(**spec_values)
 
             db.session.add(new_spec_cmd)
             db.session.commit()
-
         html_response = make_response(redirect(url_for('suivi', cmd_id=new_cmd.cmd_id)))
         if save_mode:
             html_response.set_cookie('coord_saved', str(saved_value), max_age=None)

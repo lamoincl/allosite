@@ -16,9 +16,10 @@ festif = range(15, 17)
 jeux = range(17, 20)
 egnimatique = range(20, 22)
 
+
 def gen_sub_id():
-    seed(randint(0, 100))
-    lg_id = Idlogin(login_id=randint(10000000, 99999999), login_date=datetime.datetime.now())
+    now = datetime.datetime.now()
+    lg_id = Idlogin(login_id=int(now.strftime("%H%f")), login_date=now)
     db.session.add(lg_id)
     db.session.commit()
     return lg_id.login_id
