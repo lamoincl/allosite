@@ -3,49 +3,16 @@
 {% block body %}
         <h2 class="w3-wide">{{ allo.allo_nom }}</h2>
         <form class="allo-form w3-green" action="" method="post">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="lieu_opt" id="inlineRadio1" value="MEUH" onclick="onClickAppart()" {% if lieu is defined %}{% if lieu == 'MEUH' %}checked{% elif lieu == 'EXTE' %}{% endif %}{% else %}checked{% endif %} required>
-                <label class="form-check-label" for="inlineRadio1">Je suis à la meuh</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="lieu_opt" id="inlineRadio2" value="EXTE" onclick="onClickAdresse()" {% if lieu is defined %}{% if lieu == 'EXTE' %}checked{% elif lieu == 'MEUH' %}{% endif %}{% endif %} required>
-                <label class="form-check-label" for="inlineRadio2">Je suis extérieur à la meuh</label>
-            </div>
+            <input type="hidden" name="lieu_opt" value="MEUH">
             <div class="row">
                 <div class="col">
                     <label for="id-fb">Nom sur facebook ou n° de téléphone :</label>
                     <input type="text" class="form-control" id="id-fb" name="id_fb" value="{{ id_fb }}" placeholder="Nom Prénom" required>
                 </div>
-                {% if lieu is defined %}
-                {% if lieu == 'MEUH' %}
                 <div class="col">
                     <label for="appart">N° Appartement :</label>
                     <input type="text" class="form-control" id="appart" name="appart" value="{{ appart }}" placeholder="Y16" pattern="^[a-zA-Z][0-9][0-9]$" {% if lieu == 'MEUH' %}required{% elif lieu == 'EXTE' %}{% else %}required{% endif %}>
                 </div>
-                <div class="col" style="display: none !important;">
-                    <label for="adresse">Adresse :<br><i style="font-size: 0.5em">Ne seront acceptées que les livraisons dans Alès</i></label>
-                    <input type="text" class="form-control" id="adresse" name="adresse" value="{{ adress }}" placeholder="1 Place Gabriel Péri" {% if lieu == 'EXTE' %}required{% endif %}>
-                </div>
-                {% else %}
-                <div class="col" style="display: none !important;">
-                    <label for="appart">N° Appartement :</label>
-                    <input type="text" class="form-control" id="appart" name="appart" value="{{ appart }}" placeholder="Y16" pattern="^[a-zA-Z][0-9][0-9]$" {% if lieu == 'MEUH' %}required{% elif lieu == 'EXTE' %}{% else %}required{% endif %}>
-                </div>
-                <div class="col">
-                    <label for="adresse">Adresse :</label>
-                    <input type="text" class="form-control" id="adresse" name="adresse" value="{{ adress }}" placeholder="1 Place Gabriel Péri" {% if lieu == 'EXTE' %}required{% endif %}>
-                </div>
-                {% endif %}
-                {% else %}
-                <div class="col">
-                    <label for="appart">N° Appartement :</label>
-                    <input type="text" class="form-control" id="appart" name="appart" value="{{ appart }}" placeholder="Y16" pattern="^[a-zA-Z][0-9][0-9]$" {% if lieu == 'MEUH' %}required{% elif lieu == 'EXTE' %}{% else %}required{% endif %}>
-                </div>
-                <div class="col" style="display: none !important;">
-                    <label for="adresse">Adresse :</label>
-                    <input type="text" class="form-control" id="adresse" name="adresse" value="{{ adress }}" placeholder="1 Place Gabriel Péri" {% if lieu == 'EXTE' %}required{% endif %}>
-                </div>
-                {% endif %}
             </div>
             <div class="form-group">
                 <label for="com">Une précision à ta commande d'allô ?</label>
