@@ -300,6 +300,12 @@ def allo_cmd(allo_id):
 
                 db.session.add(new_spec_cmd)
                 db.session.commit()
+
+                if allo_id == 2:
+                    cmd = db.session.query(CommandeSnack).get(new_spec_cmd.snack_id)
+                    prix = (cmd.snack_kebab * 6.5) + (cmd.snack_burger * 6.0) + (cmd.snack_panini * 5.0) + (cmd.snack_croque * 4.5)
+                    cmd.cmd.prix = prix
+                    db.session.commit()
             html_response = make_response(redirect(url_for('suivi', cmd_id=new_cmd.cmd_id)))
             if save_mode:
                 html_response.set_cookie('coord_saved', str(saved_value), max_age=60 * 60 * 24 * 365)
