@@ -5,16 +5,15 @@ from flask import session
 from database import db, Idlogin
 from random import seed, randint
 
-specifique = range(1, 10)
+specifique = range(1, 8)
 specifique_template = (
-    'crepe.html', 'snack.html', 'fastfood.html', 'alcool.html', 'cocktail.html', 'viennoiseries.html',
-    'ciguarette.html', 'capotes.html', 'covoit.html'
+    'crepe.html', 'snack.html', 'fastfood.html', 'cocktail.html', 'viennoiseries.html', 'capotes.html', 'covoit.html'
 )
-ravitaillement = range(1, 9)
-service = range(9, 15)
-festif = range(15, 17)
-jeux = range(17, 20)
-egnimatique = range(20, 22)
+ravitaillement = range(1, 7)
+service = range(7, 13)
+festif = range(13, 15)
+jeux = range(15, 18)
+egnimatique = range(18, 20)
 
 
 def gen_sub_id():

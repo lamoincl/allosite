@@ -272,16 +272,16 @@ def allo_cmd(allo_id):
             elif allo_id == 3:
                 spec_values['fastfood_commande'] = request.form['commande']
                 new_spec_cmd = CommandeFastfood(**spec_values)
-            elif allo_id == 6:
+            elif allo_id == 5:
                 spec_values['viennoiserie_pain'] = request.form['miam'] == "pain"
                 spec_values['viennoiserie_croissant'] = request.form['miam'] == "croissant"
                 spec_values['viennoiserie_choco'] = request.form['slurp'] == "choco"
                 spec_values['viennoiserie_cafe'] = request.form['slurp'] == "cafe"
                 new_spec_cmd = CommandeViennoiserie(**spec_values)
-            elif allo_id == 8:
+            elif allo_id == 6:
                 spec_values['capote_nombre'] = request.form['capote']
                 new_spec_cmd = CommandeCapote(**spec_values)
-            elif allo_id == 9:
+            elif allo_id == 7:
                 spec_values['covoit_depart'] = request.form['adresse']
                 spec_values['covoit_destination'] = request.form['arrive']
                 spec_values['covoit_heure'] = request.form['heure']
