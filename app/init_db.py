@@ -10,7 +10,7 @@ allos = [
     {'allo_id': 2, 'allo_nom': "Allô snack", 'allo_debut': datetime.time(8), 'allo_fin': datetime.time(20), 'se_reserve': True},
     {'allo_id': 3, 'allo_nom': "Allô fastfood", 'allo_debut': datetime.time(8), 'allo_fin': datetime.time(20), 'se_reserve': True},
     {'allo_id': 4, 'allo_nom': 'Allô cocktail', 'allo_debut': datetime.time(20), 'allo_fin': datetime.time(1), 'se_reserve': False},
-    {'allo_id': 5, 'allo_nom': "Allô viennoiseries", 'allo_debut': datetime.time.min, 'allo_fin': datetime.time.max, 'se_reserve': True},
+    {'allo_id': 5, 'allo_nom': "Allô petit dej'", 'allo_debut': datetime.time.min, 'allo_fin': datetime.time.max, 'se_reserve': True},
     {'allo_id': 6, 'allo_nom': "Allô capotes", 'allo_debut': datetime.time(18), 'allo_fin': datetime.time(1), 'se_reserve': False},
     {'allo_id': 7, 'allo_nom': 'Allô covoit', 'allo_debut': datetime.time.min, 'allo_fin': datetime.time.max, 'se_reserve': True},
     {'allo_id': 8, 'allo_nom': 'Allô vaisselle', 'allo_debut': datetime.time(18), 'allo_fin': datetime.time(22), 'se_reserve': False},

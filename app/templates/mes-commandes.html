@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h1>Vos commandes</h1>
+    {% if est_vide %}
+        <h2>Aucune commande n'a été faite sur cet appareil</h2>
+    {% else %}
+        {% for cmd in cmds %}
+            <a href="{{ url_for('suivi', cmd_id=cmd.cmd_id) }}" class="btn btn-lg btn-block btn-huge w3-green allo-mt">{{ cmd.allo.allo_nom }}<br>id de commande : {{ cmd.cmd_id }}</a>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

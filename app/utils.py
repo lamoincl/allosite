@@ -1,3 +1,4 @@
+import ast
 import datetime
 
 from flask import session
@@ -50,9 +51,6 @@ def treve_allos():
         if datetime.time(9) < now < datetime.time(18, 20):
             en_pause = True
     elif date == datetime.date(2022, 1, 26):
-        if datetime.time(13, 15) < now < datetime.time(18, 20):
-            en_pause = True
-    elif date == datetime.date(2022, 1, 17):
         if datetime.time(13, 15) < now < datetime.time(18, 20):
             en_pause = True
     return en_pause
@@ -130,3 +128,13 @@ def set_se_hours():
         i += 1
 
     db.session.commit()
+
+
+def update_commande_list(request, cmd, html_response):
+    if request.cookies.get("commandes") is not None:
+        commandes = ast.literal_eval(request.cookies.get("commandes"))
+        commandes.append(cmd.cmd_id)
+        html_response.set_cookie('commandes', str(commandes), max_age=60 * 60 * 24 * 365)
+    else:
+        html_response.set_cookie('commandes', str([cmd.cmd_id]), max_age=60 * 60 * 24 * 365)
+    return html_response

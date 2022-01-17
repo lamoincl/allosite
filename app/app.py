@@ -7,7 +7,7 @@ from sqlalchemy import desc
 from database import db, Commande, Idlogin, Allo, app, StatusEnum, CommandeCrepe, CommandeSnack, CommandeViennoiserie, \
     CommandeFastfood, CommandeCapote, CommandeCovoit
 from utils import gen_sub_id, is_logged, specifique, specifique_template, ravitaillement, service, festif, jeux, \
-    egnimatique, est_dispo, on_est_en_weekend, set_we_hours, set_se_hours
+    egnimatique, est_dispo, on_est_en_weekend, set_we_hours, set_se_hours, update_commande_list
 
 app.secret_key = 'P9Y44~NJmYr9rC4Ep$JE'
 
@@ -301,7 +301,9 @@ def allo_cmd(allo_id):
                 db.session.commit()
             html_response = make_response(redirect(url_for('suivi', cmd_id=new_cmd.cmd_id)))
             if save_mode:
-                html_response.set_cookie('coord_saved', str(saved_value), max_age=None)
+                html_response.set_cookie('coord_saved', str(saved_value), max_age=60 * 60 * 24 * 365)
+
+            html_response = update_commande_list(request, new_cmd, html_response)
     else:
         if allo_id in specifique:
             template_name = 'allos/' + specifique_template[allo_id - 1]
@@ -313,6 +315,22 @@ def allo_cmd(allo_id):
             html_response = render_template(template_name, **coord_get, allo=allo)
     if not est_dispo(allo):
         html_response = redirect(url_for('allos'))
+    return html_response
+
+
+@app.route('/mes-commandes')
+def mes_commandes():
+    if request.cookies.get("commandes") is not None:
+        commandes = ast.literal_eval(request.cookies.get("commandes"))
+        cmds = []
+
+        commandes.sort(reverse=True)
+
+        for cmd_id in commandes:
+            cmds.append(db.session.query(Commande).get(cmd_id))
+        html_response = render_template('mes-commandes.html', cmds=cmds, est_vide=False)
+    else:
+        html_response = render_template('mes-commandes.html', est_vide=True)
     return html_response
 
 
