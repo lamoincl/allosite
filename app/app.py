@@ -264,6 +264,7 @@ def allo_cmd(allo_id):
                     spec_values['crepe_nut'] = request.form['pate']
                     spec_values['crepe_con'] = request.form['confiture']
                     spec_values['crepe_suc'] = request.form['sucre']
+                    spec_values['crepe_nat'] = request.form['nature']
                     new_spec_cmd = CommandeCrepe(**spec_values)
                 elif allo_id == 2:
                     spec_values['snack_kebab'] = request.form['kebab']
