@@ -7,7 +7,7 @@ from sqlalchemy import desc
 from database import db, Commande, Idlogin, Allo, app, StatusEnum, CommandeCrepe, CommandeSnack, CommandeViennoiserie, \
     CommandeFastfood, CommandeCapote, CommandeCovoit
 from utils import gen_sub_id, is_logged, specifique, specifique_template, ravitaillement, service, festif, jeux, \
-    egnimatique
+    egnimatique, est_dispo, on_est_en_weekend, set_we_hours, set_se_hours
 
 app.secret_key = 'P9Y44~NJmYr9rC4Ep$JE'
 
@@ -22,6 +22,15 @@ def refresh_lg_id():
             db.session.query(Idlogin).filter(Idlogin.login_id == lg.login_id).delete()
             db.session.commit()
             print("Suppression du id de login: " + str(lg.login_id))
+    return "<h1>Cette page n'est accessible normalement :( !</h1>"
+
+
+@app.route('/update-hours')
+def update_hours():
+    if on_est_en_weekend():
+        set_we_hours()
+    else:
+        set_se_hours()
     return "<h1>Cette page n'est accessible normalement :( !</h1>"
 
 
@@ -206,7 +215,7 @@ def allo_groupe(group_id):
             allos_grp.append(db.session.query(Allo).get(allo_id))
         group_name = "Qu'est-ce que ça peut etre ?"
 
-    return render_template('allos/allo_group.html', allos=allos_grp, group_name=group_name)
+    return render_template('allos/allo_group.html', allos=allos_grp, group_name=group_name, est_dispo=est_dispo)
 
 
 @app.route('/allos/<allo_id>', methods=['GET', 'POST'])
@@ -216,82 +225,83 @@ def allo_cmd(allo_id):
     allo = db.session.query(Allo).get(allo_id)
 
     if request.method == 'POST':
-        form_values = {
-            'id_fb': request.form['id_fb'],
-            'cmd_date': datetime.datetime.now(),
-            'com': request.form['com'],
-            'allo_id': allo_id
-        }
-        save_mode = False
+        if est_dispo(allo):
+            form_values = {
+                'id_fb': request.form['id_fb'],
+                'cmd_date': datetime.datetime.now(),
+                'com': request.form['com'],
+                'allo_id': allo_id
+            }
+            save_mode = False
 
-        if 'prix' in request.form:
-            form_values['prix'] = request.form['prix']
+            if 'prix' in request.form:
+                form_values['prix'] = request.form['prix']
 
-        if 'gridCheck' in request.form:
-            save_mode = True
-            saved_value = {'id_fb': request.form['id_fb']}
+            if 'gridCheck' in request.form:
+                save_mode = True
+                saved_value = {'id_fb': request.form['id_fb']}
 
-        if request.form['lieu_opt'] == 'MEUH':
-            form_values['lieu'] = StatusEnum.MEUH
-            form_values['appart'] = request.form['appart']
-            if save_mode:
-                saved_value['lieu'] = 'MEUH'
-                saved_value['appart'] = request.form['appart']
-        else:
-            form_values['lieu'] = StatusEnum.EXTE
-            form_values['adress'] = request.form['adresse']
-            if save_mode:
-                saved_value['lieu'] = 'EXTE'
-                saved_value['adress'] = request.form['adresse']
+            if request.form['lieu_opt'] == 'MEUH':
+                form_values['lieu'] = StatusEnum.MEUH
+                form_values['appart'] = request.form['appart']
+                if save_mode:
+                    saved_value['lieu'] = 'MEUH'
+                    saved_value['appart'] = request.form['appart']
+            else:
+                form_values['lieu'] = StatusEnum.EXTE
+                form_values['adress'] = request.form['adresse']
+                if save_mode:
+                    saved_value['lieu'] = 'EXTE'
+                    saved_value['adress'] = request.form['adresse']
 
-        new_cmd = Commande(**form_values)
-        db.session.add(new_cmd)
-        db.session.commit()
-
-        if allo_id in specifique:
-            spec_values = {'cmd_id': new_cmd.cmd_id}
-            if allo_id == 1:
-                spec_values['crepe_nut'] = request.form['pate']
-                spec_values['crepe_con'] = request.form['confiture']
-                spec_values['crepe_suc'] = request.form['sucre']
-                new_spec_cmd = CommandeCrepe(**spec_values)
-            elif allo_id == 2:
-                spec_values['snack_kebab'] = request.form['kebab']
-                spec_values['snack_burger'] = request.form['burger']
-                spec_values['snack_panini'] = request.form['panini']
-                spec_values['snack_croque'] = request.form['croque']
-                spec_values['snack_fanta'] = request.form['FANTA']
-                spec_values['snack_coca'] = request.form['COCA']
-                spec_values['snack_icetea'] = request.form['ICETEA']
-                spec_values['snack_tropico'] = request.form['TROPICO']
-                spec_values['snack_oasis'] = request.form['OASIS']
-                spec_values['snack_sevenup'] = request.form['SEVENUP']
-                spec_values['snack_sevenupm'] = request.form['SEVENUPMOJITO']
-                spec_values['snack_com'] = request.form['sncom']
-                new_spec_cmd = CommandeSnack(**spec_values)
-            elif allo_id == 3:
-                spec_values['fastfood_commande'] = request.form['commande']
-                new_spec_cmd = CommandeFastfood(**spec_values)
-            elif allo_id == 5:
-                spec_values['viennoiserie_pain'] = request.form['miam'] == "pain"
-                spec_values['viennoiserie_croissant'] = request.form['miam'] == "croissant"
-                spec_values['viennoiserie_choco'] = request.form['slurp'] == "choco"
-                spec_values['viennoiserie_cafe'] = request.form['slurp'] == "cafe"
-                new_spec_cmd = CommandeViennoiserie(**spec_values)
-            elif allo_id == 6:
-                spec_values['capote_nombre'] = request.form['capote']
-                new_spec_cmd = CommandeCapote(**spec_values)
-            elif allo_id == 7:
-                spec_values['covoit_depart'] = request.form['adresse']
-                spec_values['covoit_destination'] = request.form['arrive']
-                spec_values['covoit_heure'] = request.form['heure']
-                new_spec_cmd = CommandeCovoit(**spec_values)
-
-            db.session.add(new_spec_cmd)
+            new_cmd = Commande(**form_values)
+            db.session.add(new_cmd)
             db.session.commit()
-        html_response = make_response(redirect(url_for('suivi', cmd_id=new_cmd.cmd_id)))
-        if save_mode:
-            html_response.set_cookie('coord_saved', str(saved_value), max_age=None)
+
+            if allo_id in specifique:
+                spec_values = {'cmd_id': new_cmd.cmd_id}
+                if allo_id == 1:
+                    spec_values['crepe_nut'] = request.form['pate']
+                    spec_values['crepe_con'] = request.form['confiture']
+                    spec_values['crepe_suc'] = request.form['sucre']
+                    new_spec_cmd = CommandeCrepe(**spec_values)
+                elif allo_id == 2:
+                    spec_values['snack_kebab'] = request.form['kebab']
+                    spec_values['snack_burger'] = request.form['burger']
+                    spec_values['snack_panini'] = request.form['panini']
+                    spec_values['snack_croque'] = request.form['croque']
+                    spec_values['snack_fanta'] = request.form['FANTA']
+                    spec_values['snack_coca'] = request.form['COCA']
+                    spec_values['snack_icetea'] = request.form['ICETEA']
+                    spec_values['snack_tropico'] = request.form['TROPICO']
+                    spec_values['snack_oasis'] = request.form['OASIS']
+                    spec_values['snack_sevenup'] = request.form['SEVENUP']
+                    spec_values['snack_sevenupm'] = request.form['SEVENUPMOJITO']
+                    spec_values['snack_com'] = request.form['sncom']
+                    new_spec_cmd = CommandeSnack(**spec_values)
+                elif allo_id == 3:
+                    spec_values['fastfood_commande'] = request.form['commande']
+                    new_spec_cmd = CommandeFastfood(**spec_values)
+                elif allo_id == 5:
+                    spec_values['viennoiserie_pain'] = request.form['miam'] == "pain"
+                    spec_values['viennoiserie_croissant'] = request.form['miam'] == "croissant"
+                    spec_values['viennoiserie_choco'] = request.form['slurp'] == "choco"
+                    spec_values['viennoiserie_cafe'] = request.form['slurp'] == "cafe"
+                    new_spec_cmd = CommandeViennoiserie(**spec_values)
+                elif allo_id == 6:
+                    spec_values['capote_nombre'] = request.form['capote']
+                    new_spec_cmd = CommandeCapote(**spec_values)
+                elif allo_id == 7:
+                    spec_values['covoit_depart'] = request.form['adresse']
+                    spec_values['covoit_destination'] = request.form['arrive']
+                    spec_values['covoit_heure'] = request.form['heure']
+                    new_spec_cmd = CommandeCovoit(**spec_values)
+
+                db.session.add(new_spec_cmd)
+                db.session.commit()
+            html_response = make_response(redirect(url_for('suivi', cmd_id=new_cmd.cmd_id)))
+            if save_mode:
+                html_response.set_cookie('coord_saved', str(saved_value), max_age=None)
     else:
         if allo_id in specifique:
             template_name = 'allos/' + specifique_template[allo_id - 1]
@@ -301,7 +311,8 @@ def allo_cmd(allo_id):
         if request.cookies.get("coord_saved") is not None:
             coord_get = ast.literal_eval(request.cookies.get("coord_saved"))
             html_response = render_template(template_name, **coord_get, allo=allo)
-
+    if not est_dispo(allo):
+        html_response = redirect(url_for('allos'))
     return html_response
 
 

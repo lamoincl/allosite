@@ -11,6 +11,10 @@
         <h2 class="w3-wide">ALLÔ LA GAË'LISTE</h2>
         <h5 class="w3-opacity"><i>{{ group_name }}</i></h5>
     {% for allo in allos %}
-        <a href="{{ url_for('allo_cmd', allo_id=allo.allo_id) }}" class="btn btn-lg btn-block btn-huge w3-green allo-mt">{{ allo.allo_nom }}<br>{{ allo.allo_heure }}</a>
+      {% if est_dispo(allo) %}
+          <a href="{{ url_for('allo_cmd', allo_id=allo.allo_id) }}" class="btn btn-lg btn-block btn-huge w3-green allo-mt">{{ allo.allo_nom }}<br>{{ allo.allo_debut.strftime("%Hh%M") }} - {{ allo.allo_fin.strftime("%Hh%M") }}</a>
+      {% else %}
+          <a href="" class="btn btn-lg btn-block btn-huge w3-green allo-mt disabled">{{ allo.allo_nom }}<br>{{ allo.allo_debut.strftime("%Hh%M") }} - {{ allo.allo_fin.strftime("%Hh%M") }}</a>
+      {% endif %}
     {% endfor %}
 {% endblock %}

@@ -27,8 +27,9 @@ class Allo(Base):
 
     allo_id = db.Column(db.Integer, primary_key=True)
     allo_nom = db.Column(db.String(50))
-    allo_heure = db.Column(db.String(30))
-    est_gratuit = db.Column(db.Boolean, default=True)
+    allo_debut = Column(Time)
+    allo_fin = Column(Time)
+    se_reserve = db.Column(db.Boolean, default=True)
 
     commande = relationship("Commande", back_populates="allo")
 

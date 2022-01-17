@@ -9,3 +9,5 @@ a:hover {text-decoration: none !important;}
 .allo-form {padding: 2em; font-size: 1.5em; text-align: left !important; margin-top: 7vh !important;}
 .allo-input {background-color: #ADFF2F !important; border: #ADFF2F !important;}
 .btn-commander {margin-top: 5vh !important;}
+.disabled {background-color: #8CAF50 !important;}
+.disabled:hover {background-color: #6CAF50 !important;}

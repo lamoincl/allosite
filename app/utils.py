@@ -2,7 +2,7 @@ import datetime
 
 from flask import session
 
-from database import db, Idlogin
+from database import db, Idlogin, Allo
 from random import seed, randint
 
 specifique = range(1, 8)
@@ -36,15 +36,97 @@ def is_logged():
     return it_is
 
 
-def is_standard(allo_id):
-    test = False
-    if allo_id in standard:
-        test = True
-    return test
+def treve_allos():
+    en_pause = False
+    date = datetime.datetime.now().date()
+    now = datetime.datetime.now().time()
+    if date == datetime.date(2022, 1, 21):
+        if datetime.time(7, 25) < now < datetime.time(18, 20):
+            en_pause = True
+    elif date == datetime.date(2022, 1, 24):
+        if datetime.time(8, 25) < now < datetime.time(18, 20):
+            en_pause = True
+    elif date == datetime.date(2022, 1, 25):
+        if datetime.time(9) < now < datetime.time(18, 20):
+            en_pause = True
+    elif date == datetime.date(2022, 1, 26):
+        if datetime.time(13, 15) < now < datetime.time(18, 20):
+            en_pause = True
+    elif date == datetime.date(2022, 1, 17):
+        if datetime.time(13, 15) < now < datetime.time(18, 20):
+            en_pause = True
+    return en_pause
 
 
-def is_quantitatif(allo_id):
-    test = False
-    if allo_id in quantitatif:
-        test = True
-    return test
+def on_est_en_weekend():
+    weekend = False
+    date = datetime.datetime.now().date()
+    if date == datetime.date(2022, 1, 22) or date == datetime.date(2022, 1, 23) or date == datetime.date(2022, 1, 20):
+        weekend = True
+    return weekend
+
+
+def est_dispo(allo):
+    dispo = True
+    now = datetime.datetime.now().time()
+
+    if not allo.se_reserve:
+        if treve_allos():
+            dispo = False
+
+    if allo.allo_fin < now < allo.allo_debut:
+        dispo = False
+
+    return dispo
+
+
+def set_we_hours():
+    spec = (8, 9, 10, 11, 12, 14)
+    allos = db.session.query(Allo).all()
+
+    for allo in allos:
+        if allo.allo_id in spec:
+            if allo.allo_id == 14:
+                allo.allo_debut = datetime.time(11)
+                allo.allo_fin = datetime.time(22)
+            else:
+                allo.allo_debut = datetime.time(8)
+                allo.allo_fin = datetime.time(22)
+        else:
+            allo.allo_debut = datetime.time.min
+            allo.allo_fin = datetime.time.max
+
+    db.session.commit()
+
+
+def set_se_hours():
+    hours = (
+        (datetime.time.min, datetime.time.max),
+        (datetime.time(8), datetime.time(20)),
+        (datetime.time(8), datetime.time(20)),
+        (datetime.time(20), datetime.time(1)),
+        (datetime.time.min, datetime.time.max),
+        (datetime.time(18), datetime.time(1)),
+        (datetime.time.min, datetime.time.max),
+        (datetime.time(18), datetime.time(22)),
+        (datetime.time(18), datetime.time(22)),
+        (datetime.time(18), datetime.time(22)),
+        (datetime.time(18), datetime.time(22)),
+        (datetime.time(18), datetime.time(22)),
+        (datetime.time(18), datetime.time(22)),
+        (datetime.time(18), datetime.time(22)),
+        (datetime.time.min, datetime.time.max),
+        (datetime.time.min, datetime.time.max),
+        (datetime.time(20), datetime.time(0)),
+        (datetime.time.min, datetime.time.max),
+        (datetime.time(20), datetime.time(0)),
+    )
+    allos = db.session.query(Allo).all()
+    i = 0
+
+    for allo in allos:
+        allo.allo_debut = hours[i][0]
+        allo.allo_fin = hours[i][1]
+        i += 1
+
+    db.session.commit()
