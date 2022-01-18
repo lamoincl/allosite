@@ -133,14 +133,28 @@ def manage(allo_id):
     return gen_manage(allo_id, cmds, section)
 
 
-@app.route('/manage-commande-meuh/<allo_id>')
-def manage_meuh(allo_id):
-    cmds = db.session.query(Commande).filter(
+@app.route('/manage-commande-meuh/<team>/<allo_id>')
+def manage_meuh(team, allo_id):
+    all_cmds = db.session.query(Commande).filter(
         Commande.allo_id == allo_id,
         Commande.lieu == StatusEnum.MEUH,
         Commande.status != StatusEnum.LIVRE
-    ).all()
-    section = 'MEUH'
+    )
+    enbas_liste = ['s', 'n', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'p']
+    enhaut_liste = ['r', 'z', 'y', 'x', 'w', 'v', 'u']
+    cmds = []
+
+    if team == 'ENBAS':
+        for cmd in all_cmds:
+            if cmd.appart[0].lower() in enbas_liste:
+                cmds.append(cmd)
+        section = 'ENBAS'
+    else:
+        for cmd in all_cmds:
+            if cmd.appart[0].lower() in enhaut_liste:
+                cmds.append(cmd)
+        section = 'ENHAUT'
+
     return gen_manage(allo_id, cmds, section)
 
 
