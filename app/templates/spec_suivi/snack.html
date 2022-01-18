@@ -2,11 +2,13 @@
 
 {% block data %}
     {% if cmd.status.name == 'ENVOYE' %}
-        Votre commande doit être payé:<br>
-        Paiement par pumkin au numéro : <br>
-        <input type="text" value="0695665526" id="numPay"><button onclick="copyNumPay()">Copier</button><br>
-        En commentaire mettre l'identifiant de la commande : <br>
-        <input type="text" value="{{ cmd.cmd_id }}" id="cmdId"><button onclick="copyCmdId()">Copier</button> <br>
+        Ta commande doit être payé:<br>
+        Paiement par pumkin au numéro :
+        <input type="text" value="0695665526" id="numPay" disabled><button onclick="copyNumPay()">Copier</button><br>
+        Le prix de ta commande :
+        <input type="text" value="{{ cmd.prix }}" id="prix" disabled><button onclick="copyPrix()">Copier</button><br>
+        En commentaire mettre l'identifiant de la commande :
+        <input type="text" value="{{ cmd.cmd_id }}" id="cmdId" disabled><button onclick="copyCmdId()">Copier</button> <br><br><br><br>
     {% endif %}
     Menus :
     {% if cmd.snack.snack_kebab > 0 %}

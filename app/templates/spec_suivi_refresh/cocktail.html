@@ -1,0 +1,32 @@
+{% extends 'refresh/suivi.html' %}
+
+{% block data %}
+    {% if cmd.status.name == 'ENVOYE' %}
+        Ta commande doit être payé:<br>
+        Paiement par pumkin au numéro :
+        <input type="text" value="0695665526" id="numPay" disabled><button onclick="copyNumPay()">Copier</button><br>
+        Le prix de ta commande :
+        <input type="text" value="{{ cmd.prix }}" id="prix" disabled><button onclick="copyPrix()">Copier</button><br>
+        En commentaire mettre l'identifiant de la commande :
+        <input type="text" value="{{ cmd.cmd_id }}" id="cmdId" disabled><button onclick="copyCmdId()">Copier</button> <br><br><br><br>
+    {% endif %}
+    Menus :
+    {% if cmd.cocktail.iCoffee > 0 %}
+        Nombre d'Irish Coffee: {{ cmd.cocktail.iCoffee }} <br>
+    {% endif %}
+    {% if cmd.cocktail.aCoffee > 0 %}
+        Nombre d'Arrash Coffee: {{ cmd.cocktail.aCoffee }} <br>
+    {% endif %}
+    {% if cmd.cocktail.lait > 0 %}
+        Nombre de Bai’lait: {{ cmd.cocktail.lait }} <br>
+    {% endif %}
+    {% if cmd.cocktail.jar > 0 %}
+        Nombre de Whisky in the jar: {{ cmd.cocktail.jar }} <br>
+    {% endif %}
+    {% if cmd.cocktail.vodk > 0 %}
+        Nombre de Pomme Vodkanelle: {{ cmd.cocktail.vodk }} <br>
+    {% endif %}
+    {% if cmd.cocktail.ubh > 0 %}
+        Nombre d'Ubhal: {{ cmd.cocktail.ubh }} <br>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,50 @@
+    {% for cmd in cmds %}
+            <tr id="main-info-{{ cmd.cmd_id }}" class="main-info">
+                <input type="hidden" class="time" value="{{ cmd.cmd_date.time() }}">
+                <th class="cmd-id" scope="row">{{ cmd.cmd_id }}</th>
+                <td>{{ cmd.id_fb }}</td>
+                {% if cmd.lieu.name == 'MEUH' %}
+                <td>{{ cmd.appart }}</td>
+                {% else %}
+                <td>{{ cmd.adress }}</td>
+                {% endif %}
+                <td class="status">{{ cmd.status.name }}</td>
+                <td>{{ cmd.cmd_date.time().strftime("%Hh%M") }}</td>
+            </tr>
+            {% if cmd.com != '' %}
+            <tr>
+                <th>com:</th>
+                <th colspan="4">{{ cmd.com }}</th>
+            </tr>
+            {% endif %}
+            <tr>
+                <th colspan="2">Irish Coffee : {{ cmd.cocktail.iCoffee }}</th>
+                <th>Arrash Coffee : {{ cmd.cocktail.aCoffee }}</th>
+                <th colspan="2">Bai’lait : {{ cmd.cocktail.lait }}</th>
+            </tr>
+            <tr>
+                <th colspan="2">Whisky in the jar : {{ cmd.cocktail.jar }}</th>
+                <th>Pomme Vodkanelle : {{ cmd.cocktail.vodk }}</th>
+                <th colspan="2">Ubhal : {{ cmd.cocktail.ubh }}</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th colspan="2">Prix :</th>
+                <th colspan="2">{{ cmd.prix }}</th>
+            </tr>
+            <tr>
+                <th id="{{ cmd.cmd_id }}" colspan="5">
+                    <button class="btn btn-status" onclick="updateStatus(this, 'PREPARATION')">Préparation</button>
+                    <button class="btn btn-status" onclick="updateStatus(this, 'LIVRAISON')">Livraison</button>
+                    <button class="btn btn-status" onclick="updateStatus(this, 'ANNULE')">ANNULER</button>
+                    <button class="btn btn-status" onclick="updateStatus(this, 'LIVRE')">Livré</button>
+                </th>
+            </tr>
+            <tr>
+                <th colspan="5"></th>
+            </tr>
+    {% else %}
+            <tr>
+                <th colspan="5">Il n'y a pas de commande pour ce allo !</th>
+            </tr>
+    {% endfor %}

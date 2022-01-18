@@ -105,10 +105,10 @@ def set_we_hours():
 
 
 def set_se_hours():
+    # (datetime.time(18), datetime.time(21, 30)),
     hours = (
         (datetime.time.min, datetime.time.max),
         (datetime.time(8), datetime.time(20)),
-        (datetime.time(18), datetime.time(21, 30)),
         (datetime.time(20), datetime.time(1)),
         (datetime.time.min, datetime.time.max),
         (datetime.time(18), datetime.time(1)),

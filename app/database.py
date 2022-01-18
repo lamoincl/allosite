@@ -121,6 +121,12 @@ class CommandeCocktail(Base):
     __tablename__ = 'cocktail'
 
     cocktail_id = Column(Integer, primary_key=True)
+    iCoffee = Column(Integer, default=0)
+    aCoffee = Column(Integer, default=0)
+    lait = Column(Integer, default=0)
+    jar = Column(Integer, default=0)
+    vodk = Column(Integer, default=0)
+    ubh = Column(Integer, default=0)
 
     cmd_id = Column(Integer, ForeignKey('commande.cmd_id'))
     cmd = relationship("Commande", backref=backref("cocktail", uselist=False))

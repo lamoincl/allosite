@@ -1,1 +1,38 @@
-{% extends 'allos/allocmd.html' %}
+{% extends 'allos/allocmdspec.html' %}
+
+{% block body %}
+        <h2 class="w3-wide">{{ allo.allo_nom }}</h2>
+        <form class="allo-form w3-green" action="" method="post">
+        <div id="spec">
+            <div class="form-outline">
+                <label class="form-label" for="iCoffee">Irish Coffee</label>
+                <input type="number" id="iCoffee" name="iCoffee" value="0" class="form-control" min="0" />
+            </div>
+            <div class="form-outline">
+                <label class="form-label" for="aCoffee">Arrash Coffee</label>
+                <input type="number" id="aCoffee" name="aCoffee" value="0" class="form-control" min="0" />
+            </div>
+            <div class="form-outline">
+                <label class="form-label" for="lait">Bai’lait</label>
+                <input type="number" id="lait" name="lait" value="0" class="form-control" min="0" />
+            </div>
+            <div class="form-outline">
+                <label class="form-label" for="jar">Whisky in the jar</label>
+                <input type="number" id="jar" name="jar" value="0" class="form-control" min="0" />
+            </div>
+            <div class="form-outline">
+                <label class="form-label" for="vodk">Pomme Vodkanelle</label>
+                <input type="number" id="vodk" name="vodk" value="0" class="form-control" min="0" />
+            </div>
+            <div class="form-outline">
+                <label class="form-label" for="ubh">Ubhal</label>
+                <input type="number" id="ubh" name="ubh" value="0" class="form-control" min="0" />
+            </div>
+            <div class="row">
+                <div class="col text-right">
+                    <div onclick="continuer()" class="btn-commander btn btn-primary">Continuer</div>
+                </div>
+            </div>
+        </div>
+        {{ super() }}
+{% endblock %}

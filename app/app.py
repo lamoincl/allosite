@@ -5,7 +5,7 @@ from flask import render_template, request, redirect, url_for, session, make_res
 from sqlalchemy import desc
 
 from database import db, Commande, Idlogin, Allo, app, StatusEnum, CommandeCrepe, CommandeSnack, CommandeViennoiserie, \
-    CommandeFastfood, CommandeCapote, CommandeCovoit
+    CommandeFastfood, CommandeCapote, CommandeCovoit, CommandeCocktail
 from utils import gen_sub_id, is_logged, specifique, specifique_template, ravitaillement, service, festif, jeux, \
     egnimatique, est_dispo, on_est_en_weekend, set_we_hours, set_se_hours, update_commande_list
 
@@ -184,7 +184,8 @@ def gestion_payement():
     if is_logged():
         cmds_fastfood = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE, Commande.allo_id == 3).all()
         cmds_snack = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE, Commande.allo_id == 2).all()
-        cmds = cmds_fastfood + cmds_snack
+        cmds_cocktail = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE, Commande.allo_id == 4).all()
+        cmds = cmds_fastfood + cmds_snack + cmds_cocktail
 
         if request.args.get("refresh") is not None:
             html_response = render_template('refresh/commande-a-payer.html', cmds=cmds)
@@ -194,7 +195,8 @@ def gestion_payement():
         if request.args.get("refresh") is not None:
             cmds_fastfood = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE, Commande.allo_id == 3).all()
             cmds_snack = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE, Commande.allo_id == 2).all()
-            cmds = cmds_fastfood + cmds_snack
+            cmds_cocktail = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE, Commande.allo_id == 4).all()
+            cmds = cmds_fastfood + cmds_snack + cmds_cocktail
             html_response = render_template('refresh/commande-a-payer.html', cmds=cmds)
         else:
             html_response = redirect(url_for('login', next='/gestion-payement'))
@@ -339,6 +341,14 @@ def allo_cmd(allo_id):
                 elif allo_id == 3:
                     spec_values['fastfood_commande'] = request.form['commande']
                     new_spec_cmd = CommandeFastfood(**spec_values)
+                elif allo_id == 4:
+                    noms = ['iCoffee', 'aCoffee', 'lait', 'jar', 'vodk', 'ubh']
+                    for nom in noms:
+                        if request.form[nom] == '':
+                            spec_values[nom] = 0
+                        else:
+                            spec_values[nom] = request.form[nom]
+                    new_spec_cmd = CommandeCocktail(**spec_values)
                 elif allo_id == 5:
                     spec_values['viennoiserie_pain'] = request.form['miam'] == "pain"
                     spec_values['viennoiserie_croissant'] = request.form['miam'] == "croissant"
@@ -362,6 +372,12 @@ def allo_cmd(allo_id):
                     prix = (cmd.snack_kebab * 6.5) + (cmd.snack_burger * 6.0) + (cmd.snack_panini * 5.0) + (cmd.snack_croque * 4.5)
                     cmd.cmd.prix = prix
                     db.session.commit()
+                elif allo_id == 4:
+                    cmd = db.session.query(CommandeCocktail).get(new_spec_cmd.cocktail_id)
+                    prix = (cmd.iCoffee + cmd.aCoffee + cmd.lait + cmd.jar + cmd.vodk + cmd.ubh) * 0.5
+                    cmd.cmd.prix = prix
+                    db.session.commit()
+
             html_response = make_response(redirect(url_for('suivi', cmd_id=new_cmd.cmd_id)))
             if save_mode:
                 html_response.set_cookie('coord_saved', str(saved_value), max_age=60 * 60 * 24 * 365)
