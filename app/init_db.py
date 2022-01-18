@@ -15,7 +15,7 @@ allos = [
     {'allo_id': 7, 'allo_nom': 'Allô covoit', 'allo_debut': datetime.time.min, 'allo_fin': datetime.time.max, 'se_reserve': True},
     {'allo_id': 8, 'allo_nom': 'Allô vaisselle', 'allo_debut': datetime.time(18), 'allo_fin': datetime.time(22), 'se_reserve': False},
     {'allo_id': 9, 'allo_nom': "Allô cendrillon", 'allo_debut': datetime.time(18), 'allo_fin': datetime.time(22), 'se_reserve': False},
-    {'allo_id': 10, 'allo_nom': 'Allô lessive', 'allo_debut': datetime.time(18), 'allo_fin': datetime.time(22), 'se_reserve': True},
+    {'allo_id': 10, 'allo_nom': 'Allô lessive', 'allo_debut': datetime.time(18), 'allo_fin': datetime.time(3), 'se_reserve': True},
     {'allo_id': 11, 'allo_nom': 'Allô poubelle', 'allo_debut': datetime.time(18), 'allo_fin': datetime.time(22), 'se_reserve': False},
     {'allo_id': 12, 'allo_nom': 'Allô facteur', 'allo_debut': datetime.time(18), 'allo_fin': datetime.time(22), 'se_reserve': False},
     {'allo_id': 13, 'allo_nom': "Allô'rondanse", 'allo_debut': datetime.time(18), 'allo_fin': datetime.time(22), 'se_reserve': False},

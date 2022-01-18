@@ -91,6 +91,9 @@ def set_we_hours():
             if allo.allo_id == 14:
                 allo.allo_debut = datetime.time(11)
                 allo.allo_fin = datetime.time(22)
+            elif allo.allo_id == 10:
+                allo.allo_debut = datetime.time(8)
+                allo.allo_fin = datetime.time(4)
             else:
                 allo.allo_debut = datetime.time(8)
                 allo.allo_fin = datetime.time(22)
@@ -112,7 +115,7 @@ def set_se_hours():
         (datetime.time.min, datetime.time.max),
         (datetime.time(18), datetime.time(22)),
         (datetime.time(18), datetime.time(22)),
-        (datetime.time(18), datetime.time(22)),
+        (datetime.time(18), datetime.time(3)),
         (datetime.time(18), datetime.time(22)),
         (datetime.time(18), datetime.time(22)),
         (datetime.time(18), datetime.time(22)),

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block body %}
+        <h2 class="w3-wide">{{ allo.allo_nom }}</h2>
+        <form class="allo-form w3-green" action="" method="post">
+            <input type="hidden" name="lieu_opt" value="MEUH">
+            <div class="row">
+                <div class="col">
+                    <label for="id-fb">Nom sur facebook ou n° de téléphone :</label>
+                    <input type="text" class="form-control" id="id-fb" name="id_fb" value="{{ id_fb }}" placeholder="Nom Prénom" required>
+                </div>
+                <div class="col">
+                    <label for="appart">N° Appartement :</label>
+                    <input type="text" class="form-control" id="appart" name="appart" value="{{ appart }}" placeholder="Y16" pattern="^[a-zA-Z][0-9][0-9]$" {% if lieu == 'MEUH' %}required{% elif lieu == 'EXTE' %}{% else %}required{% endif %}>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="com">Une précision à ta commande d'allô ?</label>
+                <textarea class="form-control" id="com" name="com" maxlength="300" rows="2"></textarea>
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck" name="gridCheck">
+                    <label class="form-check-label" for="gridCheck">
+                        Mémoriser mes coordonnées
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-right">
+                    <button type="submit" class="btn-commander btn btn-primary">Commander</button>
+                </div>
+            </div>
+        </form>
+{% endblock %}

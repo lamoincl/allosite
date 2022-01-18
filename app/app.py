@@ -3,6 +3,7 @@ import datetime
 
 from flask import render_template, request, redirect, url_for, session, make_response
 from sqlalchemy import desc
+from sqlalchemy.sql.functions import count
 
 from database import db, Commande, Idlogin, Allo, app, StatusEnum, CommandeCrepe, CommandeSnack, CommandeViennoiserie, \
     CommandeFastfood, CommandeCapote, CommandeCovoit
@@ -255,8 +256,28 @@ def allo_cmd(allo_id):
                     saved_value['adress'] = request.form['adresse']
 
             new_cmd = Commande(**form_values)
-            db.session.add(new_cmd)
-            db.session.commit()
+
+            if allo_id == 10:
+                compte = db.session.query(Commande).filter(
+                    Commande.status != StatusEnum.LIVRE,
+                    Commande.status != StatusEnum.ANNULE,
+                    Commande.allo_id == 10
+                ).count()
+                if on_est_en_weekend():
+                    if compte <= 18:
+                        db.session.add(new_cmd)
+                        db.session.commit()
+                    else:
+                        return render_template('allo-plein.html')
+                else:
+                    if compte <= 7:
+                        db.session.add(new_cmd)
+                        db.session.commit()
+                    else:
+                        return render_template('allo-plein.html')
+            else:
+                db.session.add(new_cmd)
+                db.session.commit()
 
             if allo_id in specifique:
                 spec_values = {'cmd_id': new_cmd.cmd_id}
@@ -309,7 +330,6 @@ def allo_cmd(allo_id):
             html_response = make_response(redirect(url_for('suivi', cmd_id=new_cmd.cmd_id)))
             if save_mode:
                 html_response.set_cookie('coord_saved', str(saved_value), max_age=60 * 60 * 24 * 365)
-
             html_response = update_commande_list(request, new_cmd, html_response)
     else:
         if allo_id in specifique:
