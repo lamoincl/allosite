@@ -20,10 +20,10 @@ function updateBoisson() {
 }
 
 function updatePrix() {
-    let kebab = parseInt(document.getElementById("kebab").value);
-    let burger = parseInt(document.getElementById("burger").value);
-    let panini = parseInt(document.getElementById("panini").value);
-    let croque = parseInt(document.getElementById("croque").value);
+    let kebab = parseInt(document.getElementById("kebab").value) || 0;
+    let burger = parseInt(document.getElementById("burger").value) || 0;
+    let panini = parseInt(document.getElementById("panini").value) || 0;
+    let croque = parseInt(document.getElementById("croque").value) || 0;
     let prix_kebab = 6.5
     let prix_burger = 6
     let prix_panini = 5

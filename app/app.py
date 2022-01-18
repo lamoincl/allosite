@@ -3,7 +3,6 @@ import datetime
 
 from flask import render_template, request, redirect, url_for, session, make_response
 from sqlalchemy import desc
-from sqlalchemy.sql.functions import count
 
 from database import db, Commande, Idlogin, Allo, app, StatusEnum, CommandeCrepe, CommandeSnack, CommandeViennoiserie, \
     CommandeFastfood, CommandeCapote, CommandeCovoit
