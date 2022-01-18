@@ -1,6 +1,13 @@
 {% extends 'suivi.html' %}
 
 {% block data %}
+    {% if cmd.status.name == 'ENVOYE' %}
+        Votre commande doit être payé:<br>
+        Paiement par pumkin au numéro : <br>
+        <input type="text" value="0695665526" id="numPay"><button onclick="copyNumPay()">Copier</button><br>
+        En commentaire mettre l'identifiant de la commande : <br>
+        <input type="text" value="{{ cmd.cmd_id }}" id="cmdId"><button onclick="copyCmdId()">Copier</button> <br>
+    {% endif %}
                     <label for="commande">Vous avez commandé:</label>
                     <textarea class="form-control" id="commande" name="commande" maxlength="1000" rows="2" disabled>{{ cmd.fastfood.fastfood_commande }}</textarea>
                     Prix : {{ cmd.prix }}

@@ -1,4 +1,4 @@
-    {% for cmd in cmds %}
+{% for cmd in cmds %}
             <tr id="main-info-{{ cmd.cmd_id }}" class="main-info">
                 <input type="hidden" class="time" value="{{ cmd.cmd_date.time() }}">
                 <th class="cmd-id" scope="row">{{ cmd.cmd_id }}</th>
@@ -11,18 +11,6 @@
                 <td class="status">{{ cmd.status.name }}</td>
                 <td>{{ cmd.cmd_date.time().strftime("%Hh%M") }}</td>
             </tr>
-            <tr>
-                <th colspan="2">Pâte à tartiner:</th>
-                <th>Confiture:</th>
-                <th>Sucre:</th>
-                <th>Nature:</th>
-            </tr>
-            <tr>
-                <th colspan="2">{{ cmd.crepe.crepe_nut }}</th>
-                <th>{{ cmd.crepe.crepe_con }}</th>
-                <th>{{ cmd.crepe.crepe_suc }}</th>
-                <th>{{ cmd.crepe.crepe_nat }}</th>
-            </tr>
             {% if cmd.com != '' %}
             <tr>
                 <th>com:</th>
@@ -31,10 +19,7 @@
             {% endif %}
             <tr>
                 <th id="{{ cmd.cmd_id }}" colspan="5">
-                    <button class="btn btn-status" onclick="updateStatus(this, 'PREPARATION')">Préparation</button>
-                    <button class="btn btn-status" onclick="updateStatus(this, 'LIVRAISON')">Livraison</button>
-                    <button class="btn btn-status" onclick="updateStatus(this, 'ANNULE')">ANNULER</button>
-                    <button class="btn btn-status" onclick="updateStatus(this, 'LIVRE')">Livré</button>
+                    <button class="btn btn-status" onclick="updateStatus(this, 'PAYE')">Payé</button>
                 </th>
             </tr>
             <tr>
@@ -42,6 +27,6 @@
             </tr>
     {% else %}
             <tr>
-                <th colspan="5">Il n'y a pas de commande pour ce allo !</th>
+                <th colspan="5">Il n'y a pas de commande en attente de validation !</th>
             </tr>
     {% endfor %}

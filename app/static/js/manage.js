@@ -9,7 +9,7 @@ function updateStatus(element, status) {
         });
     }
 
-    if (status === 'LIVRE') {
+    if (status === 'LIVRE' || status === 'ANNULE') {
         if (confirm('Es-tu sur de vouloir mettre la commande en livré ?')) {
             updateAndRefresh();
             refreshSuiviData();

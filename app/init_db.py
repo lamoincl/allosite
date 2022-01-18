@@ -8,7 +8,7 @@ Base.metadata.create_all(engine)
 allos = [
     {'allo_id': 1, 'allo_nom': 'Allô crêpe', 'allo_debut': datetime.time.min, 'allo_fin': datetime.time.max, 'se_reserve': False},
     {'allo_id': 2, 'allo_nom': "Allô snack", 'allo_debut': datetime.time(8), 'allo_fin': datetime.time(20), 'se_reserve': True},
-    {'allo_id': 3, 'allo_nom': "Allô fastfood", 'allo_debut': datetime.time(8), 'allo_fin': datetime.time(20), 'se_reserve': True},
+    {'allo_id': 3, 'allo_nom': "Allô fastfood", 'allo_debut': datetime.time(18), 'allo_fin': datetime.time(21, 30), 'se_reserve': True},
     {'allo_id': 4, 'allo_nom': 'Allô cocktail', 'allo_debut': datetime.time(20), 'allo_fin': datetime.time(1), 'se_reserve': False},
     {'allo_id': 5, 'allo_nom': "Allô petit dej'", 'allo_debut': datetime.time.min, 'allo_fin': datetime.time.max, 'se_reserve': True},
     {'allo_id': 6, 'allo_nom': "Allô capotes", 'allo_debut': datetime.time(18), 'allo_fin': datetime.time(1), 'se_reserve': False},

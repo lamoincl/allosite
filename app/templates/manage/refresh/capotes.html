@@ -23,12 +23,10 @@
             </tr>
             <tr>
                 <th id="{{ cmd.cmd_id }}" colspan="5">
-                    {% if not cmd.allo.est_gratuit %}
-                    <button onclick="updateStatus(this, 'PAYE')">Payé</button>
-                    {% endif %}
-                    <button onclick="updateStatus(this, 'PREPARATION')">Préparation</button>
-                    <button onclick="updateStatus(this, 'LIVRAISON')">Livraison</button>
-                    <button onclick="updateStatus(this, 'LIVRE')">Livré</button>
+                    <button class="btn btn-status" onclick="updateStatus(this, 'PREPARATION')">Préparation</button>
+                    <button class="btn btn-status" onclick="updateStatus(this, 'LIVRAISON')">Livraison</button>
+                    <button class="btn btn-status" onclick="updateStatus(this, 'ANNULE')">ANNULER</button>
+                    <button class="btn btn-status" onclick="updateStatus(this, 'LIVRE')">Livré</button>
                 </th>
             </tr>
             <tr>

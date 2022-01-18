@@ -8,6 +8,7 @@
             <p>
             {% block data %}
             {% endblock %}
+                Identifiant de la commande : {{ cmd.cmd_id }}<br>
                 Livraison {{ cmd.lieu.value }}<br>
                 {% if cmd.lieu.name == 'MEUH' %}
                 Appartement {{ cmd.appart }}

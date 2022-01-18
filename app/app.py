@@ -165,6 +165,28 @@ def manage_livre(allo_id):
     return gen_manage(allo_id, cmds, section)
 
 
+@app.route('/gestion-payement')
+def gestion_payement():
+    if is_logged():
+        cmds_fastfood = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE, Commande.allo_id == 3).all()
+        cmds_snack = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE, Commande.allo_id == 2).all()
+        cmds = cmds_fastfood + cmds_snack
+
+        if request.args.get("refresh") is not None:
+            html_response = render_template('refresh/commande-a-payer.html', cmds=cmds)
+        else:
+            html_response = render_template('commande-a-payer.html', cmds=cmds)
+    else:
+        if request.args.get("refresh") is not None:
+            cmds_fastfood = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE, Commande.allo_id == 3).all()
+            cmds_snack = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE, Commande.allo_id == 2).all()
+            cmds = cmds_fastfood + cmds_snack
+            html_response = render_template('refresh/commande-a-payer.html', cmds=cmds)
+        else:
+            html_response = redirect(url_for('login', next='/gestion-payement'))
+    return html_response
+
+
 @app.route('/suivi/<cmd_id>')
 def suivi(cmd_id):
     cmd = db.session.query(Commande).get(cmd_id)
