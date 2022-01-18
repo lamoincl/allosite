@@ -72,8 +72,12 @@ def est_dispo(allo):
         if treve_allos():
             dispo = False
 
-    if allo.allo_fin < now < allo.allo_debut:
-        dispo = False
+    if allo.allo_fin < allo.allo_debut:
+        if allo.allo_fin < now < allo.allo_debut:
+            dispo = False
+    else:
+        if now < allo.allo_debut or allo.allo_fin < now:
+            dispo = False
 
     return dispo
 
