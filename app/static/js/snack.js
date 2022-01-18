@@ -1,15 +1,15 @@
 function updateBoisson() {
-    let kebab = parseInt(document.getElementById("kebab").value);
-    let burger = parseInt(document.getElementById("burger").value);
-    let panini = parseInt(document.getElementById("panini").value);
-    let croque = parseInt(document.getElementById("croque").value);
-    let FANTA = parseInt(document.getElementById("FANTA").value);
-    let COCA = parseInt(document.getElementById("COCA").value);
-    let ICETEA = parseInt(document.getElementById("ICETEA").value);
-    let TROPICO = parseInt(document.getElementById("TROPICO").value);
-    let OASIS = parseInt(document.getElementById("OASIS").value);
-    let SEVENUP = parseInt(document.getElementById("SEVENUP").value);
-    let SEVENUPMOJITO = parseInt(document.getElementById("SEVENUPMOJITO").value);
+    let kebab = parseInt(document.getElementById("kebab").value) || 0;
+    let burger = parseInt(document.getElementById("burger").value) || 0;
+    let panini = parseInt(document.getElementById("panini").value) || 0;
+    let croque = parseInt(document.getElementById("croque").value) || 0;
+    let FANTA = parseInt(document.getElementById("FANTA").value) || 0;
+    let COCA = parseInt(document.getElementById("COCA").value) || 0;
+    let ICETEA = parseInt(document.getElementById("ICETEA").value) || 0;
+    let TROPICO = parseInt(document.getElementById("TROPICO").value) || 0;
+    let OASIS = parseInt(document.getElementById("OASIS").value) || 0;
+    let SEVENUP = parseInt(document.getElementById("SEVENUP").value) || 0;
+    let SEVENUPMOJITO = parseInt(document.getElementById("SEVENUPMOJITO").value) || 0;
 
     let menu_number = kebab+ burger + panini + croque;
     let boisson_number = FANTA + COCA + ICETEA + TROPICO + OASIS + SEVENUP + SEVENUPMOJITO;
