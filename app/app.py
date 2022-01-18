@@ -67,7 +67,7 @@ def refresh_status(cmd_id):
 def login():
     wrong = 0
     if request.method == 'POST':
-        if request.form['mdp'] == 'nathanderre':
+        if request.form['mdp'] == 'LAT94rSnfrXffVDfAqcbPjfmWaoZw4Xn':
             lg_id = gen_sub_id()
             session['lg'] = lg_id
             return redirect(request.args.get('next', '/'))
