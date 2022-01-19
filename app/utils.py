@@ -10,7 +10,8 @@ specifique = range(1, 8)
 specifique_template = (
     'crepe.html', 'snack.html', 'fastfood.html', 'cocktail.html', 'viennoiseries.html', 'capotes.html', 'covoit.html'
 )
-ravitaillement = range(1, 7)
+# ravitaillement = range(1, 7)
+ravitaillement = [1, 3, 4, 5, 6]
 service = range(7, 13)
 festif = range(13, 15)
 jeux = range(15, 18)

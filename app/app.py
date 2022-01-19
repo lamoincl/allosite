@@ -319,23 +319,37 @@ def allo_cmd(allo_id):
             if allo_id in specifique:
                 spec_values = {'cmd_id': new_cmd.cmd_id}
                 if allo_id == 1:
-                    spec_values['crepe_nut'] = request.form['pate']
-                    spec_values['crepe_con'] = request.form['confiture']
-                    spec_values['crepe_suc'] = request.form['sucre']
-                    spec_values['crepe_nat'] = request.form['nature']
+                    noms = ['pate', 'confiture', 'sucre', 'nature']
+                    safe = {}
+                    for nom in noms:
+                        if request.form[nom] == '':
+                            safe[nom] = '0'
+                        else:
+                            safe[nom] = request.form[nom]
+                    spec_values['crepe_nut'] = safe['pate']
+                    spec_values['crepe_con'] = safe['confiture']
+                    spec_values['crepe_suc'] = safe['sucre']
+                    spec_values['crepe_nat'] = safe['nature']
                     new_spec_cmd = CommandeCrepe(**spec_values)
                 elif allo_id == 2:
-                    spec_values['snack_kebab'] = request.form['kebab']
-                    spec_values['snack_burger'] = request.form['burger']
-                    spec_values['snack_panini'] = request.form['panini']
-                    spec_values['snack_croque'] = request.form['croque']
-                    spec_values['snack_fanta'] = request.form['FANTA']
-                    spec_values['snack_coca'] = request.form['COCA']
-                    spec_values['snack_icetea'] = request.form['ICETEA']
-                    spec_values['snack_tropico'] = request.form['TROPICO']
-                    spec_values['snack_oasis'] = request.form['OASIS']
-                    spec_values['snack_sevenup'] = request.form['SEVENUP']
-                    spec_values['snack_sevenupm'] = request.form['SEVENUPMOJITO']
+                    noms = ['kebab', 'burger', 'panini', 'croque', 'FANTA', 'COCA', 'ICETEA', 'TROPICO', 'OASIS', 'SEVENUP', 'SEVENUPMOJITO']
+                    safe = {}
+                    for nom in noms:
+                        if request.form[nom] == '':
+                            safe[nom] = '0'
+                        else:
+                            safe[nom] = request.form[nom]
+                    spec_values['snack_kebab'] = safe['kebab']
+                    spec_values['snack_burger'] = safe['burger']
+                    spec_values['snack_panini'] = safe['panini']
+                    spec_values['snack_croque'] = safe['croque']
+                    spec_values['snack_fanta'] = safe['FANTA']
+                    spec_values['snack_coca'] = safe['COCA']
+                    spec_values['snack_icetea'] = safe['ICETEA']
+                    spec_values['snack_tropico'] = safe['TROPICO']
+                    spec_values['snack_oasis'] = safe['OASIS']
+                    spec_values['snack_sevenup'] = safe['SEVENUP']
+                    spec_values['snack_sevenupm'] = safe['SEVENUPMOJITO']
                     spec_values['snack_com'] = request.form['sncom']
                     new_spec_cmd = CommandeSnack(**spec_values)
                 elif allo_id == 3:
@@ -356,7 +370,12 @@ def allo_cmd(allo_id):
                     spec_values['viennoiserie_cafe'] = request.form['slurp'] == "cafe"
                     new_spec_cmd = CommandeViennoiserie(**spec_values)
                 elif allo_id == 6:
-                    spec_values['capote_nombre'] = request.form['capote']
+                    safe = {}
+                    if request.form['capote'] == '':
+                        safe['capote'] = '0'
+                    else:
+                        safe['capote'] = request.form['capote']
+                    spec_values['capote_nombre'] = safe['capote']
                     new_spec_cmd = CommandeCapote(**spec_values)
                 elif allo_id == 7:
                     spec_values['covoit_depart'] = request.form['adresse']

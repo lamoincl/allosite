@@ -1,25 +1,3 @@
-function preventZero() {
-    let kebab = document.getElementById("kebab");
-    let burger = document.getElementById("burger");
-    let panini = document.getElementById("panini");
-    let croque = document.getElementById("croque");
-    let FANTA = document.getElementById("FANTA");
-    let COCA = document.getElementById("COCA");
-    let ICETEA = document.getElementById("ICETEA");
-    let TROPICO = document.getElementById("TROPICO");
-    let OASIS = document.getElementById("OASIS");
-    let SEVENUP = document.getElementById("SEVENUP");
-    let SEVENUPMOJITO = document.getElementById("SEVENUPMOJITO");
-    let vals = [kebab, burger, panini, croque, FANTA, COCA, ICETEA, TROPICO, OASIS, SEVENUP, SEVENUPMOJITO];
-
-    for (let val of vals) {
-        if (val.value === "") {
-            val.value = "0";
-        }
-    }
-
-}
-
 function updateBoisson() {
     let kebab = parseInt(document.getElementById("kebab").value) || 0;
     let burger = parseInt(document.getElementById("burger").value) || 0;
@@ -39,7 +17,6 @@ function updateBoisson() {
     let boisson_i = document.getElementById("boisson");
 
     boisson_i.innerHTML = boisson_restante.toString() + " boisson(s) à choisir";
-    preventZero();
 }
 
 function updatePrix() {
@@ -58,7 +35,6 @@ function updatePrix() {
     updateBoisson();
     prix_i.innerHTML = prix_commande.toString();
     prix_input.value = prix_commande;
-    preventZero();
 }
 
 function continuerSnack() {
@@ -90,5 +66,4 @@ function continuerSnack() {
             box_alert.innerHTML = "Il ne peut pas avoir 0 menu commandé !"
         }
     }
-    preventZero();
 }
