@@ -9,8 +9,15 @@
                 <td>{{ cmd.adress }}</td>
                 {% endif %}
                 <td class="status">{{ cmd.status.name }}</td>
-                <td>{{ cmd.cmd_date.time().strftime("%Hh%M") }}</td>
+                <td>{{ cmd.cmd_date.time().strftime("%d - %Hh%M") }}</td>
             </tr>
+            {% if cmd.allo.allo_id == 3 %}
+            <tr>
+                <td colspan="5">
+                    <textarea class="form-control" id="commande" name="commande" maxlength="1000" rows="2" disabled>{{ cmd.fastfood.fastfood_commande }}</textarea>
+                </td>
+            </tr>
+            {% endif %}
             {% if cmd.com != '' %}
             <tr>
                 <th>com:</th>
