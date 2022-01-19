@@ -24,6 +24,7 @@
                 <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
                 <a href="{{ url_for('accueil') }}" class="w3-bar-item w3-button w3-padding-large">ACCUEIL</a>
                 <a href="{{ url_for('allos') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">NOS ALLOS</a>
+                <a href="{{ url_for('presentation') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">PRESENTATION</a>
                 <a href="{{ url_for('mes_commandes') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">MES COMMANDES</a>
             </div>
         </div>
@@ -31,6 +32,7 @@
         <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
         <div id="navDemo" class="w3-bar-block w3-green w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
             <a href="{{ url_for('allos') }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">NOS ALLOS</a>
+            <a href="{{ url_for('presentation') }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">PRESENTATION</a>
             <a href="{{ url_for('mes_commandes') }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">MES COMMANDES</a>
         </div>
     {% endblock %}

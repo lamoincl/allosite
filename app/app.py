@@ -2,7 +2,7 @@ import ast
 import datetime
 
 from flask import render_template, request, redirect, url_for, session, make_response
-from sqlalchemy import desc
+from sqlalchemy import desc, or_
 
 from database import db, Commande, Idlogin, Allo, app, StatusEnum, CommandeCrepe, CommandeSnack, CommandeViennoiserie, \
     CommandeFastfood, CommandeCapote, CommandeCovoit, CommandeCocktail
@@ -127,7 +127,8 @@ def gen_manage(allo_id, cmds, section):
 def manage(allo_id):
     cmds = db.session.query(Commande).filter(
         Commande.allo_id == allo_id,
-        Commande.status != StatusEnum.LIVRE
+        Commande.status != StatusEnum.LIVRE,
+        Commande.status != StatusEnum.ANNULE
     ).all()
     section = 'GLOBAL'
     return gen_manage(allo_id, cmds, section)
@@ -138,7 +139,8 @@ def manage_meuh(team, allo_id):
     all_cmds = db.session.query(Commande).filter(
         Commande.allo_id == allo_id,
         Commande.lieu == StatusEnum.MEUH,
-        Commande.status != StatusEnum.LIVRE
+        Commande.status != StatusEnum.LIVRE,
+        Commande.status != StatusEnum.ANNULE
     )
     enbas_liste = ['s', 'n', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'p']
     enhaut_liste = ['r', 'z', 'y', 'x', 'w', 'v', 'u']
@@ -163,7 +165,8 @@ def manage_exte(allo_id):
     cmds = db.session.query(Commande).filter(
         Commande.allo_id == allo_id,
         Commande.lieu == StatusEnum.EXTE,
-        Commande.status != StatusEnum.LIVRE
+        Commande.status != StatusEnum.LIVRE,
+        Commande.status != StatusEnum.ANNULE
     ).all()
     section = 'EXTE'
     return gen_manage(allo_id, cmds, section)
@@ -173,7 +176,10 @@ def manage_exte(allo_id):
 def manage_livre(allo_id):
     cmds = db.session.query(Commande).filter(
         Commande.allo_id == allo_id,
-        Commande.status == StatusEnum.LIVRE
+        or_(
+            Commande.status == StatusEnum.LIVRE,
+            Commande.status == StatusEnum.ANNULE
+        )
     ).order_by(desc(Commande.cmd_id))
     section = 'LIVRE'
     return gen_manage(allo_id, cmds, section)
