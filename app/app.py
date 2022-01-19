@@ -86,14 +86,17 @@ def index_manage():
     if is_logged():
         all_allos = db.session.query(Allo).all()
         if request.args.get("refresh") is not None:
-            html_response = render_template('refresh/manage_index.html', allos=all_allos, db=db, Commande=Commande, Allo=Allo, StatusEnum=StatusEnum)
+            html_response = render_template('refresh/manage_index.html', allos=all_allos, db=db, Commande=Commande,
+                                            Allo=Allo, StatusEnum=StatusEnum)
         else:
-            html_response = render_template('manage/index_commande.html', allos=all_allos, db=db, Commande=Commande, Allo=Allo, StatusEnum=StatusEnum)
+            html_response = render_template('manage/index_commande.html', allos=all_allos, db=db, Commande=Commande,
+                                            Allo=Allo, StatusEnum=StatusEnum)
         return html_response
     else:
         if request.args.get("refresh") is not None:
             all_allos = db.session.query(Allo).all()
-            html_response = render_template('refresh/manage_index.html', allos=all_allos, db=db, Commande=Commande, Allo=Allo, StatusEnum=StatusEnum)
+            html_response = render_template('refresh/manage_index.html', allos=all_allos, db=db, Commande=Commande,
+                                            Allo=Allo, StatusEnum=StatusEnum)
         else:
             html_response = redirect(url_for('login', next='/manage-commande'))
         return html_response
@@ -105,12 +108,14 @@ def gen_manage(allo_id, cmds, section):
         allo = db.session.query(Allo).get(allo_id)
         if request.args.get("refresh") is not None:
             if allo_id in specifique:
-                html_response = render_template('manage/refresh/' + specifique_template[allo_id - 1], cmds=cmds, allo=allo, section=section)
+                html_response = render_template('manage/refresh/' + specifique_template[allo_id - 1], cmds=cmds,
+                                                allo=allo, section=section)
             else:
                 html_response = render_template('refresh/manage_commande.html', cmds=cmds, allo=allo, section=section)
         else:
             if allo_id in specifique:
-                html_response = render_template('manage/' + specifique_template[allo_id - 1], cmds=cmds, allo=allo, section=section)
+                html_response = render_template('manage/' + specifique_template[allo_id - 1], cmds=cmds, allo=allo,
+                                                section=section)
             else:
                 html_response = render_template('manage/manage_commande.html', cmds=cmds, allo=allo, section=section)
         return html_response
@@ -188,9 +193,12 @@ def manage_livre(allo_id):
 @app.route('/gestion-payement')
 def gestion_payement():
     if is_logged():
-        cmds_fastfood = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE, Commande.allo_id == 3).all()
-        cmds_snack = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE, Commande.allo_id == 2).all()
-        cmds_cocktail = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE, Commande.allo_id == 4).all()
+        cmds_fastfood = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE,
+                                                          Commande.allo_id == 3).all()
+        cmds_snack = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE,
+                                                       Commande.allo_id == 2).all()
+        cmds_cocktail = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE,
+                                                          Commande.allo_id == 4).all()
         cmds = cmds_fastfood + cmds_snack + cmds_cocktail
 
         if request.args.get("refresh") is not None:
@@ -199,9 +207,12 @@ def gestion_payement():
             html_response = render_template('commande-a-payer.html', cmds=cmds)
     else:
         if request.args.get("refresh") is not None:
-            cmds_fastfood = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE, Commande.allo_id == 3).all()
-            cmds_snack = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE, Commande.allo_id == 2).all()
-            cmds_cocktail = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE, Commande.allo_id == 4).all()
+            cmds_fastfood = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE,
+                                                              Commande.allo_id == 3).all()
+            cmds_snack = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE,
+                                                           Commande.allo_id == 2).all()
+            cmds_cocktail = db.session.query(Commande).filter(Commande.status == StatusEnum.ENVOYE,
+                                                              Commande.allo_id == 4).all()
             cmds = cmds_fastfood + cmds_snack + cmds_cocktail
             html_response = render_template('refresh/commande-a-payer.html', cmds=cmds)
         else:
@@ -338,7 +349,8 @@ def allo_cmd(allo_id):
                     spec_values['crepe_nat'] = safe['nature']
                     new_spec_cmd = CommandeCrepe(**spec_values)
                 elif allo_id == 2:
-                    noms = ['kebab', 'burger', 'panini', 'croque', 'FANTA', 'COCA', 'ICETEA', 'TROPICO', 'OASIS', 'SEVENUP', 'SEVENUPMOJITO']
+                    noms = ['kebab', 'burger', 'panini', 'croque', 'FANTA', 'COCA', 'ICETEA', 'TROPICO', 'OASIS',
+                            'SEVENUP', 'SEVENUPMOJITO']
                     safe = {}
                     for nom in noms:
                         if request.form[nom] == '':
@@ -370,10 +382,26 @@ def allo_cmd(allo_id):
                             spec_values[nom] = request.form[nom]
                     new_spec_cmd = CommandeCocktail(**spec_values)
                 elif allo_id == 5:
-                    spec_values['viennoiserie_pain'] = request.form['miam'] == "pain"
-                    spec_values['viennoiserie_croissant'] = request.form['miam'] == "croissant"
-                    spec_values['viennoiserie_choco'] = request.form['slurp'] == "choco"
-                    spec_values['viennoiserie_cafe'] = request.form['slurp'] == "cafe"
+                    if 'miam' not in request.form and 'slurp' in request.form:
+                        spec_values['viennoiserie_pain'] = False
+                        spec_values['viennoiserie_croissant'] = False
+                        spec_values['viennoiserie_choco'] = request.form['slurp'] == "choco"
+                        spec_values['viennoiserie_cafe'] = request.form['slurp'] == "cafe"
+                    elif 'slurp' not in request.form and 'miam' in request.form:
+                        spec_values['viennoiserie_choco'] = False
+                        spec_values['viennoiserie_cafe'] = False
+                        spec_values['viennoiserie_pain'] = request.form['miam'] == "pain"
+                        spec_values['viennoiserie_croissant'] = request.form['miam'] == "croissant"
+                    elif 'slurp' in request.form and 'miam' in request.form:
+                        spec_values['viennoiserie_pain'] = request.form['miam'] == "pain"
+                        spec_values['viennoiserie_croissant'] = request.form['miam'] == "croissant"
+                        spec_values['viennoiserie_choco'] = request.form['slurp'] == "choco"
+                        spec_values['viennoiserie_cafe'] = request.form['slurp'] == "cafe"
+                    else:
+                        spec_values['viennoiserie_pain'] = False
+                        spec_values['viennoiserie_croissant'] = False
+                        spec_values['viennoiserie_choco'] = False
+                        spec_values['viennoiserie_cafe'] = False
                     new_spec_cmd = CommandeViennoiserie(**spec_values)
                 elif allo_id == 6:
                     safe = {}
@@ -394,7 +422,8 @@ def allo_cmd(allo_id):
 
                 if allo_id == 2:
                     cmd = db.session.query(CommandeSnack).get(new_spec_cmd.snack_id)
-                    prix = (cmd.snack_kebab * 6.5) + (cmd.snack_burger * 6.0) + (cmd.snack_panini * 5.0) + (cmd.snack_croque * 4.5)
+                    prix = (cmd.snack_kebab * 6.5) + (cmd.snack_burger * 6.0) + (cmd.snack_panini * 5.0) + (
+                                cmd.snack_croque * 4.5)
                     cmd.cmd.prix = prix
                     db.session.commit()
                 elif allo_id == 4:
