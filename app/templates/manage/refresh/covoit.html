@@ -4,7 +4,7 @@
                 <th class="cmd-id" scope="row">{{ cmd.cmd_id }}</th>
                 <td>{{ cmd.id_fb }}</td>
                 <td class="status">{{ cmd.status.name }}</td>
-                <td>{{ cmd.cmd_date.time().strftime("%d - %Hh%M") }}</td>
+                <td>{{ cmd.cmd_date.strftime("%d - %Hh%M") }}</td>
             </tr>
             {% if cmd.com != '' %}
             <tr>
