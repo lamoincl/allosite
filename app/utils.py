@@ -49,7 +49,7 @@ def treve_allos():
         if datetime.time(8, 25) < now < datetime.time(18, 20):
             en_pause = True
     elif date == datetime.date(2022, 1, 20):
-        if datetime.time(8, 20) < now < datetime.time(12, 14) or datetime.time(13, 30) < now < datetime.time(17):
+        if datetime.time(8, 20) < now < datetime.time(12, 14) or datetime.time(13, 30) < now < datetime.time(17, 15):
             en_pause = True
     elif date == datetime.date(2022, 1, 25):
         if datetime.time(9) < now < datetime.time(18, 20):
@@ -98,6 +98,9 @@ def set_we_hours():
             elif allo.allo_id == 10:
                 allo.allo_debut = datetime.time(8)
                 allo.allo_fin = datetime.time(4)
+            elif allo.allo_id == 15:
+                allo.allo_debut = datetime.time(10)
+                allo.allo_fin = datetime.time.min
             else:
                 allo.allo_debut = datetime.time(8)
                 allo.allo_fin = datetime.time(22)
@@ -112,7 +115,7 @@ def set_se_hours():
     # (datetime.time(18), datetime.time(21, 30)),
     hours = (
         (datetime.time.min, datetime.time.max),
-        (datetime.time(8), datetime.time(20)),
+        (datetime.time(8), datetime.time(19)),
         (datetime.time(20), datetime.time(1)),
         (datetime.time.min, datetime.time.max),
         (datetime.time(18), datetime.time(1)),
@@ -124,7 +127,7 @@ def set_se_hours():
         (datetime.time(18), datetime.time(22)),
         (datetime.time(18), datetime.time(22)),
         (datetime.time(18), datetime.time(22)),
-        (datetime.time.min, datetime.time.max),
+        (datetime.time(18), datetime.time.min),
         (datetime.time.min, datetime.time.max),
         (datetime.time(20), datetime.time(0)),
         (datetime.time.min, datetime.time.max),
