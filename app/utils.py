@@ -8,10 +8,10 @@ from random import seed, randint
 
 specifique = range(1, 8)
 specifique_template = (
-    'crepe.html', 'snack.html', 'fastfood.html', 'cocktail.html', 'viennoiseries.html', 'capotes.html', 'covoit.html'
+    'crepe.html', 'apperitif.html', 'fastfood.html', 'cocktail.html', 'viennoiseries.html', 'capotes.html', 'covoit.html'
 )
 # ravitaillement = range(1, 7)
-ravitaillement = [1, 3, 5, 6]
+ravitaillement = [1, 20, 3, 5, 6]
 service = range(7, 13)
 festif = range(13, 15)
 jeux = range(15, 18)
@@ -49,7 +49,7 @@ def treve_allos():
         if datetime.time(8, 25) < now < datetime.time(18, 20):
             en_pause = True
     elif date == datetime.date(2022, 1, 20):
-        if datetime.time(8, 20) < now < datetime.time(12, 14) or datetime.time(13, 30) < now < datetime.time(17, 15):
+        if datetime.time(18) < now < datetime.time(20) or datetime.time(13, 30) < now < datetime.time(17):
             en_pause = True
     elif date == datetime.date(2022, 1, 25):
         if datetime.time(9) < now < datetime.time(18, 20):
@@ -132,6 +132,7 @@ def set_se_hours():
         (datetime.time(20), datetime.time(0)),
         (datetime.time.min, datetime.time.max),
         (datetime.time(20), datetime.time(0)),
+        (datetime.time(18), datetime.time(1))
     )
     allos = db.session.query(Allo).all()
     i = 0
