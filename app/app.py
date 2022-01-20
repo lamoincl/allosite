@@ -458,12 +458,30 @@ def mes_commandes():
     if request.cookies.get("commandes") is not None:
         commandes = ast.literal_eval(request.cookies.get("commandes"))
         cmds = []
+        commandes_changed = False
 
         commandes.sort(reverse=True)
 
         for cmd_id in commandes:
-            cmds.append(db.session.query(Commande).get(cmd_id))
-        html_response = render_template('mes-commandes.html', cmds=cmds, est_vide=False)
+            cmd = db.session.query(Commande).get(cmd_id)
+            if cmd is None:
+                commandes.remove(cmd_id)
+                commandes_changed = True
+            else:
+                cmds.append(cmd)
+
+        if len(cmds) == 0:
+            if commandes_changed:
+                html_response = make_response(render_template('mes-commandes.html', est_vide=True))
+                html_response.set_cookie('commandes', str(commandes))
+            else:
+                html_response = render_template('mes-commandes.html', est_vide=True)
+        else:
+            if commandes_changed:
+                html_response = make_response(render_template('mes-commandes.html', cmds=cmds, est_vide=False))
+                html_response.set_cookie('commandes', str(commandes))
+            else:
+                html_response = render_template('mes-commandes.html', cmds=cmds, est_vide=False)
     else:
         html_response = render_template('mes-commandes.html', est_vide=True)
     return html_response
