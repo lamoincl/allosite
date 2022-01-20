@@ -140,6 +140,8 @@ class CommandeViennoiserie(Base):
     viennoiserie_croissant = Column(Boolean)
     viennoiserie_choco = Column(Boolean)
     viennoiserie_cafe = Column(Boolean)
+    viennoiserie_crepe = Column(Boolean, default=False)
+    viennoiserie_jus = Column(Boolean, default=False)
 
     cmd_id = Column(Integer, ForeignKey('commande.cmd_id'))
     cmd = relationship("Commande", backref=backref("viennoiserie", uselist=False))

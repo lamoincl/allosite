@@ -402,6 +402,9 @@ def allo_cmd(allo_id):
                         spec_values['viennoiserie_croissant'] = False
                         spec_values['viennoiserie_choco'] = False
                         spec_values['viennoiserie_cafe'] = False
+
+                    spec_values['viennoiserie_crepe'] = 'crepe' in request.form
+                    spec_values['viennoiserie_jus'] = 'jus' in request.form
                     new_spec_cmd = CommandeViennoiserie(**spec_values)
                 elif allo_id == 6:
                     safe = {}

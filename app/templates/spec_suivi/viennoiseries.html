@@ -1,5 +1,5 @@
 {% extends 'suivi.html' %}
 
 {% block data %}
-    Vous avez commandé: {% if cmd.viennoiserie.viennoiserie_pain %}un pain au chocolat {% elif cmd.viennoiserie.viennoiserie_croissant %}un croissant {% endif %}{% if cmd.viennoiserie.viennoiserie_choco %}un chocolat chaud{% elif cmd.viennoiserie.viennoiserie_cafe %}un café{% endif %}<br>
+    Vous avez commandé: {% if cmd.viennoiserie.viennoiserie_pain %}un pain au chocolat {% elif cmd.viennoiserie.viennoiserie_croissant %}un croissant {% elif cmd.viennoiserie.viennoiserie_crepe %}une crêpe {% endif %}{% if cmd.viennoiserie.viennoiserie_choco %}un chocolat chaud {% elif cmd.viennoiserie.viennoiserie_cafe %}un café {% elif cmd.viennoiserie.viennoiserie_croissant %}un jus de fruit {% endif %}<br>
 {% endblock %}

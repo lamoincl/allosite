@@ -34,6 +34,12 @@
             {% if cmd.viennoiserie.viennoiserie_cafe %}
                 <th colspan="2">Café</th>
             {% endif %}
+            {% if cmd.viennoiserie.viennoiserie_crepe %}
+                <th>Crêpe</th>
+            {% endif %}
+            {% if cmd.viennoiserie.viennoiserie_jus %}
+                <th>Jus</th>
+            {% endif %}
             </tr>
             <tr>
                 <th id="{{ cmd.cmd_id }}" colspan="5">
