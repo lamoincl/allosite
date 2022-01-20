@@ -147,8 +147,8 @@ def manage_meuh(team, allo_id):
         Commande.status != StatusEnum.LIVRE,
         Commande.status != StatusEnum.ANNULE
     )
-    enbas_liste = ['s', 'n', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'p']
-    enhaut_liste = ['r', 'z', 'y', 'x', 'w', 'v', 'u']
+    enbas_liste = ['s', 'n', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'p','o','q','t']
+    enhaut_liste = ['r', 'z', 'y', 'x', 'w', 'v', 'u','q','t']
     cmds = []
 
     if team == 'ENBAS':
