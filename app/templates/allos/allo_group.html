@@ -9,6 +9,7 @@
 
 {% block body %}
         <h2 class="w3-wide">ALLÔ LA GAELISTE</h2>
+        <h3 id="display-msg">En raison de l’amphi présentation de la Cycliste, vous ne serez pas livrés entre 18h30 et 20h</h3>
         <h5 class="w3-opacity"><i>{{ group_name }}</i></h5>
     {% for allo in allos %}
       {% if est_dispo(allo) %}
