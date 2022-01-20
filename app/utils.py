@@ -48,6 +48,9 @@ def treve_allos():
     elif date == datetime.date(2022, 1, 24):
         if datetime.time(8, 25) < now < datetime.time(18, 20):
             en_pause = True
+    elif date == datetime.date(2022, 1, 20):
+        if datetime.time(8, 20) < now < datetime.time(17):
+            en_pause = True
     elif date == datetime.date(2022, 1, 25):
         if datetime.time(9) < now < datetime.time(18, 20):
             en_pause = True
@@ -60,7 +63,7 @@ def treve_allos():
 def on_est_en_weekend():
     weekend = False
     date = datetime.datetime.now().date()
-    if date == datetime.date(2022, 1, 22) or date == datetime.date(2022, 1, 23) or date == datetime.date(2022, 1, 20):
+    if date == datetime.date(2022, 1, 22) or date == datetime.date(2022, 1, 23):
         weekend = True
     return weekend
 
