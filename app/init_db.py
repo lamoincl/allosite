@@ -26,6 +26,7 @@ allos = [
     {'allo_id': 17, 'allo_nom': 'Allô UNO', 'allo_debut': datetime.time(20), 'allo_fin': datetime.time(0), 'se_reserve': False},
     {'allo_id': 18, 'allo_nom': 'Allô la terre ici ma lune', 'allo_debut': datetime.time.min, 'allo_fin': datetime.time.max, 'se_reserve': False},
     {'allo_id': 19, 'allo_nom': "Allô à l'eau", 'allo_debut': datetime.time.min, 'allo_fin': datetime.time.max, 'se_reserve': False},
+    {'allo_id': 20, 'allo_nom': "Allô apperitif", 'allo_debut': datetime.time.min, 'allo_fin': datetime.time.max, 'se_reserve': False},
 ]
 
 for allo in allos:
