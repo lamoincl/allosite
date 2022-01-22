@@ -11,7 +11,7 @@ specifique_template = (
     'crepe.html', 'apperitif.html', 'fastfood.html', 'cocktail.html', 'viennoiseries.html', 'capotes.html', 'covoit.html'
 )
 # ravitaillement = range(1, 7)
-ravitaillement = [1, 20, 3, 5, 6]
+ravitaillement = [1, 3, 5, 6]
 service = range(7, 13)
 festif = range(13, 15)
 jeux = range(15, 18)
@@ -48,8 +48,8 @@ def treve_allos():
     elif date == datetime.date(2022, 1, 24):
         if datetime.time(8, 25) < now < datetime.time(18, 20):
             en_pause = True
-    elif date == datetime.date(2022, 1, 20):
-        if datetime.time(18, 10) < now < datetime.time(20) or datetime.time(13, 30) < now < datetime.time(17):
+    elif date == datetime.date(2022, 1, 22):
+        if datetime.time(13, 30) < now < datetime.time(18, 30):
             en_pause = True
     elif date == datetime.date(2022, 1, 25):
         if datetime.time(9) < now < datetime.time(18, 20):

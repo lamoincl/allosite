@@ -35,13 +35,13 @@ class Allo(Base):
 
 
 class StatusEnum(enum.Enum):
-    ENVOYE = "envoyé"
-    PAYE = "payé"
+    ENVOYE = "envoyée"
+    PAYE = "payée"
     PREPARATION = "en préparation"
     LIVRAISON = "en cours de livraison"
-    LIVRE = "livré"
-    ANNULE = "annulé"
-    VALIDE = "validé"
+    LIVRE = "livrée"
+    ANNULE = "annulée"
+    VALIDE = "validée"
 
     EXTE = "en exté"
     MEUH = "à la meuh"
