@@ -13,4 +13,10 @@
     {% if cmd.crepe.crepe_nat > 0 %}
         Nombre de crêpes nature: {{ cmd.crepe.crepe_nat }} <br>
     {% endif %}
+    {% if cmd.crepe.crepe_fromage > 0 %}
+        Nombre de crêpes au fromage: {{ cmd.crepe.crepe_fromage }} <br>
+    {% endif %}
+    {% if cmd.crepe.crepe_jambon > 0 %}
+        Nombre de crêpes au jambon et fromage: {{ cmd.crepe.crepe_jambon }} <br>
+    {% endif %}
 {% endblock %}

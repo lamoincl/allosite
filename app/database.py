@@ -72,6 +72,8 @@ class CommandeCrepe(Base):
     crepe_nut = Column(Integer, default=0)
     crepe_con = Column(Integer, default=0)
     crepe_nat = Column(Integer, default=0)
+    crepe_fromage = Column(Integer, default=0)
+    crepe_jambon = Column(Integer, default=0)
 
     cmd_id = Column(Integer, ForeignKey('commande.cmd_id'))
     cmd = relationship("Commande", backref=backref("crepe", uselist=False))

@@ -336,7 +336,7 @@ def allo_cmd(allo_id):
             if allo_id in specifique:
                 spec_values = {'cmd_id': new_cmd.cmd_id}
                 if allo_id == 1:
-                    noms = ['pate', 'confiture', 'sucre', 'nature']
+                    noms = ['pate', 'confiture', 'sucre', 'nature', 'jambon', 'fromage']
                     safe = {}
                     for nom in noms:
                         if request.form[nom] == '':
@@ -347,6 +347,8 @@ def allo_cmd(allo_id):
                     spec_values['crepe_con'] = safe['confiture']
                     spec_values['crepe_suc'] = safe['sucre']
                     spec_values['crepe_nat'] = safe['nature']
+                    spec_values['crepe_jambon'] = safe['jambon']
+                    spec_values['crepe_fromage'] = safe['fromage']
                     new_spec_cmd = CommandeCrepe(**spec_values)
                 elif allo_id == 2:
                     noms = ['kebab', 'burger', 'panini', 'croque', 'FANTA', 'COCA', 'ICETEA', 'TROPICO', 'OASIS',
