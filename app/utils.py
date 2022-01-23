@@ -48,8 +48,8 @@ def treve_allos():
     elif date == datetime.date(2022, 1, 24):
         if datetime.time(8, 25) < now < datetime.time(18, 20):
             en_pause = True
-    elif date == datetime.date(2022, 1, 22):
-        if datetime.time(13, 30) < now < datetime.time(22):
+    elif date == datetime.date(2022, 1, 23):
+        if datetime.time(13, 55) < now < datetime.time(18):
             en_pause = True
     elif date == datetime.date(2022, 1, 25):
         if datetime.time(9) < now < datetime.time(18, 20):
