@@ -46,10 +46,10 @@ def treve_allos():
         if datetime.time(7, 25) < now < datetime.time(13) or datetime.time(13, 45) < now < datetime.time(20):
             en_pause = True
     elif date == datetime.date(2022, 1, 24):
-        if datetime.time(8, 25) < now < datetime.time(18, 20):
+        if datetime.time(13, 35) < now < datetime.time(22):
             en_pause = True
     elif date == datetime.date(2022, 1, 23):
-        if datetime.time(13, 55) < now < datetime.time(18):
+        if datetime.time(13, 55) < now < datetime.time(15):
             en_pause = True
     elif date == datetime.date(2022, 1, 25):
         if datetime.time(9) < now < datetime.time(18, 20):
